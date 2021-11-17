@@ -1,0 +1,17 @@
+Package: gitHelpeR
+Title: Helps with Git repo related things
+Version: 0.0.0.9000
+Authors@R:
+    person(given = "Candace",
+           family = "Savonen",
+           role = c("aut", "cre"),
+           email = "cansav09@gmail.com")
+Description: Helps with Git repo related things
+License: GPL-3
+Imports: magrittr,
+  xml2,
+  dplyr
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
