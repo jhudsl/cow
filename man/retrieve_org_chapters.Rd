@@ -35,7 +35,8 @@ Currently only public repositories are supported.
 }
 \examples{
 
-retrieve_org_chapters(org_name = "jhudsl",
-                      output_file = "jhudsl_chapter_info.tsv")
-
+retrieve_org_chapters(
+  org_name = "jhudsl",
+  output_file = "jhudsl_chapter_info.tsv"
+)
 }

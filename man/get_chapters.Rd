@@ -27,5 +27,4 @@ Currently only public repositories are supported.
 \examples{
 
 get_chapters("jhudsl/DaSL_Course_Template_Bookdown")
-
 }

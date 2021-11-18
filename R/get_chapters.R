@@ -22,9 +22,7 @@
 #' @examples
 #'
 #' get_chapters("jhudsl/DaSL_Course_Template_Bookdown")
-#'
 get_chapters <- function(repo_name, git_pat = NULL) {
-
   auth_arg <- get_git_auth(git_pat = git_pat)
 
   # Declare file name for this organization
@@ -32,13 +30,15 @@ get_chapters <- function(repo_name, git_pat = NULL) {
 
   # Download the repos and save to file
   curl_command <-
-    paste0("curl ",
-           auth_arg,
-           " https://api.github.com/repos/",
-           repo_name,
-           "/pages",
-           " > ",
-           json_file)
+    paste0(
+      "curl ",
+      auth_arg,
+      " https://api.github.com/repos/",
+      repo_name,
+      "/pages",
+      " > ",
+      json_file
+    )
 
   # Run the command
   system(curl_command)
@@ -49,31 +49,38 @@ get_chapters <- function(repo_name, git_pat = NULL) {
   # Remove to clean up
   file.remove(json_file)
 
-  message(paste0("Retrieving chapters from: ", repo_name))
+  if (is.null(repo_info$html_url)) {
+    warning(paste("No html URL found in GitHub API for", repo_name))
 
-  # Build github pages names
-  gh_page <- paste0(repo_info$html_url, "/index.html")
-
-  # Read in html
-  index_html <- suppressWarnings(try(xml2::read_html(paste(gh_page, collapse = "\n"))))
-
-  if (!grepl("HTTP error 404.", index_html[1])) {
-    # Extract chapter nodes
-    nodes <- rvest::html_nodes(index_html, xpath = paste0("//", 'li[@class="chapter"]'))
-
-    if (length(nodes) > 0) {
-      # Format into a data.frame
-      chapt_data <- rvest::html_attrs(nodes) %>%
-        dplyr::bind_rows() %>%
-        dplyr::rename_with(~ gsub("-", "_", .x, fixed = TRUE)) %>%
-        dplyr::mutate(chapt_names = rvest::html_text(nodes),
-                      url = paste0(gh_page, "/", data_path),
-                     course = repo_name) %>%
-        dplyr::select(-class)
-
-      return(chapt_data)
-    }
   } else {
-    warning(paste0("No chapters found at ", gh_page))
+
+    message(paste0("Retrieving chapters from: ", repo_name))
+    # Build github pages names
+    gh_page <- paste0(repo_info$html_url, "/index.html")
+
+    # Read in html
+    index_html <- suppressWarnings(try(xml2::read_html(paste(gh_page, collapse = "\n"))))
+
+    if (!grepl("HTTP error 404.", index_html[1])) {
+      # Extract chapter nodes
+      nodes <- rvest::html_nodes(index_html, xpath = paste0("//", 'li[@class="chapter"]'))
+
+      if (length(nodes) > 0) {
+        # Format into a data.frame
+        chapt_data <- rvest::html_attrs(nodes) %>%
+          dplyr::bind_rows() %>%
+          dplyr::rename_with(~ gsub("-", "_", .x, fixed = TRUE)) %>%
+          dplyr::mutate(
+            chapt_names = rvest::html_text(nodes),
+            url = paste0(gh_page, "/", data_path),
+            course = repo_name
+          ) %>%
+          dplyr::select(-class)
+
+        return(chapt_data)
+      }
+    } else {
+      warning(paste0("No chapters found at ", gh_page))
+    }
   }
 }

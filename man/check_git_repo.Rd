@@ -28,5 +28,4 @@ Given a repository name, check with git ls-remote whether the repository exists 
 \examples{
 
 check_git_repo("jhudsl/DaSL_Course_Template_Bookdown")
-
 }

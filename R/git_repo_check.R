@@ -18,12 +18,10 @@
 #' @examples
 #'
 #' check_git_repo("jhudsl/DaSL_Course_Template_Bookdown")
-#'
 check_git_repo <- function(repo,
                            git_pat = NULL,
                            silent = TRUE,
                            return_repo = FALSE) {
-
   message(paste("Checking for remote git repository:", repo))
 
   # If silent = TRUE don't print out the warning message from the 'try'
