@@ -10,6 +10,7 @@
 #' access token needs to be supplied. If none is supplied, then this will attempt to
 #' grab from a git pat set in the environment with usethis::create_github_token().
 #' Authorization handled by \link[gitHelpeR]{get_git_auth}
+#' @param verbose TRUE/FALSE attempt to retrieve learning objectives?
 #' @param verbose TRUE/FALSE do you want more progress messages?
 #'
 #' @return a data frame with the repository with the following columns:
@@ -22,9 +23,12 @@
 #'
 #' @examples
 #'
-#' get_chapters("jhudsl/DaSL_Course_Template_Bookdown")
+#' get_chapters("jhudsl/Documentation_and_Usability")
 #'
-get_chapters <- function(repo_name, git_pat = NULL, verbose = TRUE) {
+get_chapters <- function(repo_name,
+                         git_pat = NULL,
+                         retrieve_learning_obj = TRUE,
+                         verbose = TRUE) {
 
   # Build auth argument
   auth_arg <- get_git_auth(git_pat = git_pat)
@@ -88,6 +92,10 @@ get_chapters <- function(repo_name, git_pat = NULL, verbose = TRUE) {
           ) %>%
           dplyr::select(-class) %>%
           as.data.frame()
+
+        if (retrieve_learning_obj) {
+          chapt_data$learning_obj <- lapply(chapt_data$url, get_learning_obj)
+        }
       }
     }
   }
