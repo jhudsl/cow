@@ -10,9 +10,10 @@
 #' access token needs to be supplied. If none is supplied, then this will attempt to
 #' grab from a git pat set in the environment with usethis::create_github_token().
 #' Authorization handled by \link[gitHelpeR]{get_git_auth}
+#' @param verbose TRUE/FALSE do you want more progress messages?
 #'
-#' @return A TRUE/FALSE whether or not the repository exists. Optionally the
-#' output from git ls-remote if return_repo = TRUE.
+#' @return a data frame with the repository with the following columns:
+#' data_level, data_path, chapt_name, url, repository name
 #'
 #' @importFrom magrittr %>%
 #' @import dplyr
@@ -23,8 +24,9 @@
 #'
 #' get_chapters("jhudsl/DaSL_Course_Template_Bookdown")
 #'
-get_chapters <- function(repo_name, git_pat = NULL) {
+get_chapters <- function(repo_name, git_pat = NULL, verbose = TRUE) {
 
+  # Build auth argument
   auth_arg <- get_git_auth(git_pat = git_pat)
 
   # Declare file name for this organization
@@ -34,6 +36,8 @@ get_chapters <- function(repo_name, git_pat = NULL) {
   curl_command <-
     paste0(
       "curl ",
+      # If we want curl to be quiet
+      ifelse(verbose, "", " -s "),
       auth_arg,
       " https://api.github.com/repos/",
       repo_name,
@@ -61,8 +65,9 @@ get_chapters <- function(repo_name, git_pat = NULL) {
   if (!is.null(repo_info$html_url)) {
 
     message(paste0("Retrieving chapters from: ", repo_name))
+
     # Build github pages names
-    gh_page <- paste0(repo_info$html_url, "/index.html")
+    gh_page <- paste0(repo_info$html_url, "index.html")
 
     # Read in html
     index_html <- suppressWarnings(try(xml2::read_html(paste(gh_page, collapse = "\n"))))
@@ -78,7 +83,7 @@ get_chapters <- function(repo_name, git_pat = NULL) {
           dplyr::rename_with(~ gsub("-", "_", .x, fixed = TRUE)) %>%
           dplyr::mutate(
             chapt_name = rvest::html_text(nodes),
-            url = paste0(repo_info$html_url, "/", data_path),
+            url = paste0(repo_info$html_url, data_path),
             course = repo_name
           ) %>%
           dplyr::select(-class) %>%

@@ -12,6 +12,7 @@
 #' @param git_pat If private repositories are to be retrieved, a github personal
 #' access token needs to be supplied. If none is supplied, then this will attempt to
 #' grab from a git pat set in the environment with usethis::create_github_token().
+#' @param verbose TRUE/FALSE do you want more progress messages?
 #'
 #' @return A TRUE/FALSE whether or not the repository exists. Optionally the
 #' output from git ls-remote if return_repo = TRUE.
@@ -27,7 +28,9 @@
 retrieve_org_chapters <- function(org_name = NULL,
                                   url_base = NULL,
                                   output_file = "org_chapter_info.tsv",
-                                  git_pat = NULL) {
+                                  git_pat = NULL,
+                                  verbose = TRUE) {
+  # Build auth argument
   auth_arg <- get_git_auth(git_pat = git_pat)
 
   # Declare file name for this organization
@@ -37,6 +40,8 @@ retrieve_org_chapters <- function(org_name = NULL,
   curl_command <-
     paste0(
       "curl ",
+      # If we want curl to be quiet
+      ifelse(verbose, "", " -s "),
       auth_arg,
       " https://api.github.com/orgs/",
       org_name,

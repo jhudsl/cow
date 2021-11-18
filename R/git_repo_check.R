@@ -18,6 +18,7 @@
 #' @examples
 #'
 #' check_git_repo("jhudsl/DaSL_Course_Template_Bookdown")
+#'
 check_git_repo <- function(repo,
                            git_pat = NULL,
                            silent = TRUE,
