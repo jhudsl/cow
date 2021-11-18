@@ -12,7 +12,9 @@ Imports: magrittr,
   xml2,
   dplyr,
   rvest,
-  jsonlite
+  jsonlite,
+  gitcreds,
+  readr
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

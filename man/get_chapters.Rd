@@ -7,18 +7,13 @@
 get_chapters(repo_name, git_pat = NULL)
 }
 \arguments{
+\item{repo_name}{The full name of the repo to get bookdown chapters from.
+e.g. "jhudsl/DaSL_Course_Template_Bookdown"}
+
 \item{git_pat}{If private repositories are to be retrieved, a github personal
 access token needs to be supplied. If none is supplied, then this will attempt to
 grab from a git pat set in the environment with usethis::create_github_token().
-Authorization handled by \link{@get_git_auth}}
-
-\item{org_name}{the name of the organization that e.g. "jhudsl"}
-
-\item{url_base}{the base url of the github pages for this organization
-e.g. "http://jhudatascience.org/"}
-
-\item{output_file}{a file path for where the chapter information should be
-saved e.g. "jhudsl_chapter.tsv"}
+Authorization handled by \link[gitHelpeR]{get_git_auth}}
 }
 \value{
 A TRUE/FALSE whether or not the repository exists. Optionally the

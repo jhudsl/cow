@@ -28,7 +28,7 @@ retrieve_org_chapters <- function(org_name = NULL,
                                   output_file = "org_chapter_info.tsv",
                                   git_pat = NULL) {
 
-  auth_arg <- get_git_auth(git_path = git_pat)
+  auth_arg <- get_git_auth(git_pat = git_pat)
 
   # Declare file name for this organization
   json_file <- paste0(org_name, "-repos.json")
