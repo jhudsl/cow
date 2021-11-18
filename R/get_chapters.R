@@ -22,7 +22,9 @@
 #' @examples
 #'
 #' get_chapters("jhudsl/DaSL_Course_Template_Bookdown")
+#'
 get_chapters <- function(repo_name, git_pat = NULL) {
+
   auth_arg <- get_git_auth(git_pat = git_pat)
 
   # Declare file name for this organization
@@ -49,10 +51,14 @@ get_chapters <- function(repo_name, git_pat = NULL) {
   # Remove to clean up
   file.remove(json_file)
 
-  if (is.null(repo_info$html_url)) {
-    warning(paste("No html URL found in GitHub API for", repo_name))
+  chapt_data <- data.frame(
+    data_level = NA,
+    data_path = NA,
+    chapt_name = NA,
+    url = NA,
+    course = repo_name)
 
-  } else {
+  if (!is.null(repo_info$html_url)) {
 
     message(paste0("Retrieving chapters from: ", repo_name))
     # Build github pages names
@@ -71,16 +77,14 @@ get_chapters <- function(repo_name, git_pat = NULL) {
           dplyr::bind_rows() %>%
           dplyr::rename_with(~ gsub("-", "_", .x, fixed = TRUE)) %>%
           dplyr::mutate(
-            chapt_names = rvest::html_text(nodes),
-            url = paste0(gh_page, "/", data_path),
+            chapt_name = rvest::html_text(nodes),
+            url = paste0(repo_info$html_url, "/", data_path),
             course = repo_name
           ) %>%
-          dplyr::select(-class)
-
-        return(chapt_data)
+          dplyr::select(-class) %>%
+          as.data.frame()
       }
-    } else {
-      warning(paste0("No chapters found at ", gh_page))
     }
   }
+  return(chapt_data)
 }

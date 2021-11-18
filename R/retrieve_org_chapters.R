@@ -51,15 +51,19 @@ retrieve_org_chapters <- function(org_name = NULL,
   repos <- jsonlite::read_json(json_file)
 
   # Collect repo names
-  repo_names_index <- grep("^name$", names(unlist(repos)))
+  repo_names_index <- grep("^full_name$", names(unlist(repos)))
   repo_names <- unlist(repos)[repo_names_index]
 
   all_chapters <- lapply(repo_names,
     get_chapters,
     git_pat = git_pat
-  ) %>%
-    dplyr::bind_rows() %>%
-    readr::write_tsv(file.path(output_file))
+  )
 
-  return(all_chapters)
+ names(all_chapters) <- repo_names
+
+ all_chapters_df <- all_chapters %>%
+   dplyr::bind_rows(.id = "repo") %>%
+   readr::write_tsv(file.path(output_file))
+
+  return(all_chapters_df)
 }
