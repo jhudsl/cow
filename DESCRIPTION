@@ -10,7 +10,9 @@ Description: Helps with Git repo related things
 License: GPL-3
 Imports: magrittr,
   xml2,
-  dplyr
+  dplyr,
+  rvest,
+  jsonlite
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

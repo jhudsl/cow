@@ -1,25 +1,43 @@
-
-check_git_repo <- function(repo, git_pat = NULL, silent = TRUE, return_repo = FALSE) {
-  # Given a repository name, check with git ls-remote whether the repository
-  # exists and return a TRUE/FALSE
-
-  # Inputs:
-  # repo: the name of the repository, e.g. jhudsl/DaSL_Course_Template_Bookdown
-  # git_pat: A personal access token from GitHub. Only necessary if the repository being
-  #          checked is a private repository.
-  # silent: TRUE/FALSE of whether the warning from the git ls-remote command
-  #         should be echoed back if it does fail.
-  # return_repo: TRUE/FALSE of whether or not the output from git ls-remote
-  #              should be saved to a file (if the repo exists)
-
-  # Returns:
-  # A TRUE/FALSE whether or not the repository exists.
-  # Optionally the output from git ls-remote if return_repo = TRUE.
+#' Check if a repository exists on GitHub
+#'
+#' Given a repository name, check with git ls-remote whether the repository exists and return a TRUE/FALSE
+#'
+#' @param repo the name of the repository, e.g. jhudsl/DaSL_Course_Template_Bookdown
+#' @param git_pat A personal access token from GitHub. Only necessary if the
+#' repository being checked is a private repository.
+#' @param silent TRUE/FALSE of whether the warning from the git ls-remote
+#' command should be echoed back if it does fail.
+#' @param return_repo TRUE/FALSE of whether or not the output from git ls-remote
+#' should be saved to a file (if the repo exists)
+#'
+#' @return A TRUE/FALSE whether or not the repository exists. Optionally the
+#' output from git ls-remote if return_repo = TRUE.
+#'
+#' @export
+#'
+#' @examples
+#'
+#' check_git_repo("jhudsl/DaSL_Course_Template_Bookdown")
+#'
+check_git_repo <- function(repo,
+                           git_pat = NULL,
+                           silent = TRUE,
+                           return_repo = FALSE) {
 
   message(paste("Checking for remote git repository:", repo))
 
   # If silent = TRUE don't print out the warning message from the 'try'
   report <- ifelse(silent, suppressWarnings, message)
+
+  if (is.null(git_pat)) {
+    git_pat <- gitcreds::gitcreds_get()$password
+    if (is.null(git_pat)) {
+      warning("No github credentials found or provided.
+              Only public repositories will be retrieved. Set GitHub token using
+              usethis::create_github_token()
+              if you would like private repos to be included.")
+    }
+  }
 
   if (!is.null(git_pat)) {
     # If git_pat is supplied, use it
