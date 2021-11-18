@@ -1,4 +1,4 @@
-#' Retrieve all bookdown chapters
+#' Retrieve all bookdown chapters for an org
 #'
 #' Given an organization on GitHub, retrieve all the bookdown chapter
 #' information for all the Github pages that exist for all the repositories.
@@ -26,49 +26,32 @@
 #'   output_file = "jhudsl_chapter_info.tsv"
 #' )
 retrieve_org_chapters <- function(org_name = NULL,
-                                  url_base = NULL,
                                   output_file = "org_chapter_info.tsv",
                                   git_pat = NULL,
+                                  retrieve_learning_obj = FALSE,
                                   verbose = TRUE) {
-  # Build auth argument
-  auth_arg <- get_git_auth(git_pat = git_pat)
 
-  # Declare file name for this organization
-  json_file <- paste0(org_name, "-repos.json")
-
-  # Download the repos and save to file
-  curl_command <-
-    paste0(
-      "curl ",
-      # If we want curl to be quiet
-      ifelse(verbose, "", " -s "),
-      auth_arg,
-      " https://api.github.com/orgs/",
-      org_name,
-      "/repos?per_page=1000000 > ",
-      json_file
-    )
-
-  # Run the command
-  system(curl_command)
-
-  # Read in json file
-  repos <- jsonlite::read_json(json_file)
-
-  # Collect repo names
-  repo_names_index <- grep("^full_name$", names(unlist(repos)))
-  repo_names <- unlist(repos)[repo_names_index]
-
-  all_chapters <- lapply(repo_names,
-    get_chapters,
-    git_pat = git_pat
+  # Retrieve all the repos for an org
+  repo_names <- retrieve_org_repos(
+    org_name = org_name,
+    git_pat = git_pat,
+    verbose = TRUE
   )
 
- names(all_chapters) <- repo_names
+  # Retrieve all the chapters
+  all_chapters <- lapply(repo_names,
+    get_chapters,
+    git_pat = git_pat,
+    retrieve_learning_obj = retrieve_learning_obj
+  )
 
- all_chapters_df <- all_chapters %>%
-   dplyr::bind_rows(.id = "repo") %>%
-   readr::write_tsv(file.path(output_file))
+  # Put the names on this list
+  names(all_chapters) <- repo_names
+
+  # Get all the chapters for all these repos
+  all_chapters_df <- all_chapters %>%
+    dplyr::bind_rows(.id = "repo") %>%
+    readr::write_tsv(file.path(output_file))
 
   return(all_chapters_df)
 }

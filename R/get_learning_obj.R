@@ -18,14 +18,13 @@
 #' @examples
 #'
 #' get_learning_obj("https://jhudatascience.org/Documentation_and_Usability/what-does-good-documentation-look-like.html")
-#'
 get_learning_obj <- function(chapt_url, prompt = "This chapter will demonstrate how to\\:") {
 
   # Try chapter url
   chapt_html <- suppressWarnings(try(xml2::read_html(paste(chapt_url, collapse = "\n"))))
 
   # Extract chapter nodes
-  nodes <- rvest::html_nodes(chapt_html, xpath = paste0("//", 'img'))
+  nodes <- rvest::html_nodes(chapt_html, xpath = paste0("//", "img"))
 
   # Get alternative text
   fig_alts <- rvest::html_attr(nodes, "alt")

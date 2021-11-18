@@ -4,7 +4,12 @@
 \alias{get_chapters}
 \title{Retrieve bookdown chapters for a repository}
 \usage{
-get_chapters(repo_name, git_pat = NULL)
+get_chapters(
+  repo_name,
+  git_pat = NULL,
+  retrieve_learning_obj = FALSE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{repo_name}{The full name of the repo to get bookdown chapters from.
@@ -14,10 +19,12 @@ e.g. "jhudsl/DaSL_Course_Template_Bookdown"}
 access token needs to be supplied. If none is supplied, then this will attempt to
 grab from a git pat set in the environment with usethis::create_github_token().
 Authorization handled by \link[gitHelpeR]{get_git_auth}}
+
+\item{verbose}{TRUE/FALSE do you want more progress messages?}
 }
 \value{
-A TRUE/FALSE whether or not the repository exists. Optionally the
-output from git ls-remote if return_repo = TRUE.
+a data frame with the repository with the following columns:
+data_level, data_path, chapt_name, url, repository name
 }
 \description{
 Given an repository on GitHub, retrieve all the bookdown chapter
@@ -26,5 +33,5 @@ Currently only public repositories are supported.
 }
 \examples{
 
-get_chapters("jhudsl/DaSL_Course_Template_Bookdown")
+get_chapters("jhudsl/Documentation_and_Usability")
 }

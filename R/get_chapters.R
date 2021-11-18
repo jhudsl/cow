@@ -24,7 +24,6 @@
 #' @examples
 #'
 #' get_chapters("jhudsl/Documentation_and_Usability")
-#'
 get_chapters <- function(repo_name,
                          git_pat = NULL,
                          retrieve_learning_obj = FALSE,
@@ -64,14 +63,14 @@ get_chapters <- function(repo_name,
     data_path = NA,
     chapt_name = NA,
     url = NA,
-    course = repo_name)
+    course = repo_name
+  )
 
   if (retrieve_learning_obj) {
     chapt_data$learning_obj <- NA
   }
 
   if (!is.null(repo_info$html_url)) {
-
     message(paste0("Retrieving chapters from: ", repo_name))
 
     # Build github pages names
