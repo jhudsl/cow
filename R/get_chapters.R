@@ -1,3 +1,8 @@
+utils::globalVariables(c(
+  "data_path"
+  ))
+
+
 #' Retrieve bookdown chapters for a repository
 #'
 #' Given an repository on GitHub, retrieve all the bookdown chapter
@@ -10,7 +15,7 @@
 #' access token needs to be supplied. If none is supplied, then this will attempt to
 #' grab from a git pat set in the environment with usethis::create_github_token().
 #' Authorization handled by \link[gitHelpeR]{get_git_auth}
-#' @param verbose TRUE/FALSE attempt to retrieve learning objectives?
+#' @param retrieve_learning_obj TRUE/FALSE attempt to retrieve learning objectives?
 #' @param verbose TRUE/FALSE do you want more progress messages?
 #'
 #' @return a data frame with the repository with the following columns:

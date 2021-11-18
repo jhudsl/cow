@@ -10,10 +10,10 @@ get_learning_obj(
 )
 }
 \arguments{
-\item{prompt}{A string character that is a prompt lead in to the Learning objectives and should be deleted.}
+\item{chapt_url}{a url to a bookdown chapter
+e.g. "https://jhudatascience.org/Documentation_and_Usability/what-does-good-documentation-look-like.html"}
 
-\item{repo_name}{The full name of the repo to get bookdown chapters from.
-e.g. "jhudsl/DaSL_Course_Template_Bookdown"}
+\item{prompt}{A string character that is a prompt lead in to the Learning objectives and should be deleted.}
 }
 \value{
 find learning objectives for a particular chapter
@@ -25,5 +25,9 @@ Currently only public repositories are supported.
 }
 \examples{
 
-get_learning_obj("https://jhudatascience.org/Documentation_and_Usability/what-does-good-documentation-look-like.html")
+# Declare chapter URL
+url <- "https://jhudatascience.org/Documentation_and_Usability/what-does-good-documentation-look-like.html"
+
+get_learning_obj(url)
+
 }

@@ -6,7 +6,8 @@ Authors@R:
            family = "Savonen",
            role = c("aut", "cre"),
            email = "cansav09@gmail.com")
-Description: Helps with Git repo related things
+Description: gitHelper accesses GitHub API from R and performs some course
+  management functions, including retrieving chapter names and learning objectives for courses hosted on GitHub repositories.
 License: GPL-3
 Imports: magrittr,
   xml2,

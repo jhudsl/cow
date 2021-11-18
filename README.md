@@ -1,6 +1,6 @@
 ### gitHelpeR
 
-gitHelper access GitHub API from R and performs some course management functions, including retrieving chapter names and learning objectives for courses hosted on GitHub repositories.
+gitHelper accesses GitHub API from R and performs some course management functions, including retrieving chapter names and learning objectives for courses hosted on GitHub repositories.
 
 ## Installation
 

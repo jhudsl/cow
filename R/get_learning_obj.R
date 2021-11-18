@@ -1,11 +1,13 @@
+
+
 #' Retrieve learning objectives for a chapter
 #'
 #' Given an repository on GitHub, retrieve all the bookdown chapter
 #' information for the Github page if it exists.
 #' Currently only public repositories are supported.
 #'
-#' @param repo_name The full name of the repo to get bookdown chapters from.
-#' e.g. "jhudsl/DaSL_Course_Template_Bookdown"
+#' @param chapt_url a url to a bookdown chapter
+#' e.g. "https://jhudatascience.org/Documentation_and_Usability/what-does-good-documentation-look-like.html"
 #' @param prompt A string character that is a prompt lead in to the Learning objectives and should be deleted.
 #'
 #' @return find learning objectives for a particular chapter
@@ -17,7 +19,11 @@
 #'
 #' @examples
 #'
-#' get_learning_obj("https://jhudatascience.org/Documentation_and_Usability/what-does-good-documentation-look-like.html")
+#' # Declare chapter URL
+#' url <- "https://jhudatascience.org/Documentation_and_Usability/what-does-good-documentation-look-like.html"
+#'
+#' get_learning_obj(url)
+#'
 get_learning_obj <- function(chapt_url, prompt = "This chapter will demonstrate how to\\:") {
 
   # Try chapter url

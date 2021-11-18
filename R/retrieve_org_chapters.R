@@ -5,13 +5,12 @@
 #' Currently only public repositories are supported.
 #'
 #' @param org_name the name of the organization that e.g. "jhudsl"
-#' @param url_base the base url of the github pages for this organization
-#' e.g. "http://jhudatascience.org/"
 #' @param output_file a file path for where the chapter information should be
 #' saved e.g. "jhudsl_chapter.tsv"
 #' @param git_pat If private repositories are to be retrieved, a github personal
 #' access token needs to be supplied. If none is supplied, then this will attempt to
 #' grab from a git pat set in the environment with usethis::create_github_token().
+#' @param retrieve_learning_obj TRUE/FALSE attempt to retrieve learning objectives?
 #' @param verbose TRUE/FALSE do you want more progress messages?
 #'
 #' @return A TRUE/FALSE whether or not the repository exists. Optionally the

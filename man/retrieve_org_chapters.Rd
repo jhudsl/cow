@@ -22,10 +22,9 @@ saved e.g. "jhudsl_chapter.tsv"}
 access token needs to be supplied. If none is supplied, then this will attempt to
 grab from a git pat set in the environment with usethis::create_github_token().}
 
-\item{verbose}{TRUE/FALSE do you want more progress messages?}
+\item{retrieve_learning_obj}{TRUE/FALSE attempt to retrieve learning objectives?}
 
-\item{url_base}{the base url of the github pages for this organization
-e.g. "http://jhudatascience.org/"}
+\item{verbose}{TRUE/FALSE do you want more progress messages?}
 }
 \value{
 A TRUE/FALSE whether or not the repository exists. Optionally the
