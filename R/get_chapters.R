@@ -27,7 +27,7 @@
 #'
 get_chapters <- function(repo_name,
                          git_pat = NULL,
-                         retrieve_learning_obj = TRUE,
+                         retrieve_learning_obj = FALSE,
                          verbose = TRUE) {
 
   # Build auth argument
@@ -65,6 +65,10 @@ get_chapters <- function(repo_name,
     chapt_name = NA,
     url = NA,
     course = repo_name)
+
+  if (retrieve_learning_obj) {
+    chapt_data$learning_obj <- NA
+  }
 
   if (!is.null(repo_info$html_url)) {
 
