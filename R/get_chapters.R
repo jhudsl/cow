@@ -1,3 +1,8 @@
+utils::globalVariables(c(
+  "data_path"
+  ))
+
+
 #' Retrieve bookdown chapters for a repository
 #'
 #' Given an repository on GitHub, retrieve all the bookdown chapter
@@ -10,6 +15,7 @@
 #' access token needs to be supplied. If none is supplied, then this will attempt to
 #' grab from a git pat set in the environment with usethis::create_github_token().
 #' Authorization handled by \link[gitHelpeR]{get_git_auth}
+#' @param retrieve_learning_obj TRUE/FALSE attempt to retrieve learning objectives?
 #' @param verbose TRUE/FALSE do you want more progress messages?
 #'
 #' @return a data frame with the repository with the following columns:
@@ -22,9 +28,11 @@
 #'
 #' @examples
 #'
-#' get_chapters("jhudsl/DaSL_Course_Template_Bookdown")
-#'
-get_chapters <- function(repo_name, git_pat = NULL, verbose = TRUE) {
+#' get_chapters("jhudsl/Documentation_and_Usability")
+get_chapters <- function(repo_name,
+                         git_pat = NULL,
+                         retrieve_learning_obj = FALSE,
+                         verbose = TRUE) {
 
   # Build auth argument
   auth_arg <- get_git_auth(git_pat = git_pat)
@@ -60,10 +68,14 @@ get_chapters <- function(repo_name, git_pat = NULL, verbose = TRUE) {
     data_path = NA,
     chapt_name = NA,
     url = NA,
-    course = repo_name)
+    course = repo_name
+  )
+
+  if (retrieve_learning_obj) {
+    chapt_data$learning_obj <- NA
+  }
 
   if (!is.null(repo_info$html_url)) {
-
     message(paste0("Retrieving chapters from: ", repo_name))
 
     # Build github pages names
@@ -88,6 +100,10 @@ get_chapters <- function(repo_name, git_pat = NULL, verbose = TRUE) {
           ) %>%
           dplyr::select(-class) %>%
           as.data.frame()
+
+        if (retrieve_learning_obj) {
+          chapt_data$learning_obj <- lapply(chapt_data$url, get_learning_obj)
+        }
       }
     }
   }

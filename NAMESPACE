@@ -3,6 +3,8 @@
 export(check_git_repo)
 export(get_chapters)
 export(get_git_auth)
+export(get_learning_obj)
 export(retrieve_org_chapters)
+export(retrieve_org_repos)
 import(dplyr)
 importFrom(magrittr,"%>%")
