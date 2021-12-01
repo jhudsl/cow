@@ -72,14 +72,15 @@ get_chapters <- function(repo_name,
 
     # Get release info
     release_info <- get_release_info(
-      repo_name = repo_name,
+      repo_name = "jhudsl/ari",
       git_pat = git_pat,
       verbose = verbose
     )
 
     if (!is.na(release_info$tag_name[1])){
       # Get the most recent release
-      release_info <- dplyr::arrange(tag_date) %>%
+      release_info <- release_info %>%
+        dplyr::arrange(tag_date) %>%
         top_n(n = 1)
     }
 
