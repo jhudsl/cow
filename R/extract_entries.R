@@ -19,9 +19,14 @@
 extract_entries <- function(api_list,
                             entry_name,
                             fixed = TRUE) {
+
   list_names <- names(unlist(api_list))
 
-  indices <- grep(entry_name, list_names, fixed = fixed)
+  if (fixed) {
+    entry_name <- paste0("^", entry_name, "$")
+  }
+
+  indices <- grep(entry_name, list_names)
 
   return(unlist(api_list)[indices])
 }

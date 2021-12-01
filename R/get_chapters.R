@@ -75,10 +75,13 @@ get_chapters <- function(repo_name,
       repo_name = repo_name,
       git_pat = git_pat,
       verbose = verbose
-    ) %>%
-    # Get the most recent release
-    dplyr::arrange(tag_date) %>%
-      top_n(n = 1)
+    )
+
+    if (!is.na(release_info$tag_name[1])){
+      # Get the most recent release
+      release_info <- dplyr::arrange(tag_date) %>%
+        top_n(n = 1)
+    }
 
     # Read in html
     index_html <- suppressWarnings(try(xml2::read_html(paste(gh_page, collapse = "\n"))))

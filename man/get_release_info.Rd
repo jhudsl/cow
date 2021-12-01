@@ -20,8 +20,8 @@ Authorization handled by \link[gitHelpeR]{get_git_auth}}
 \item{keep_json}{verbose TRUE/FALSE keep the json file locally?}
 }
 \value{
-a data frame with the repository with the following columns:
-data_level, data_path, chapt_name, url, repository name
+a data frame with the repository's release information: tag_name and tag_date.
+NAs are returned in these columns if there are no releases.
 }
 \description{
 Given an repository on GitHub, retrieve the information about it from the

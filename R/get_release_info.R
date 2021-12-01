@@ -12,8 +12,8 @@
 #' @param verbose TRUE/FALSE do you want more progress messages?
 #' @param keep_json verbose TRUE/FALSE keep the json file locally?
 #'
-#' @return a data frame with the repository with the following columns:
-#' data_level, data_path, chapt_name, url, repository name
+#' @return a data frame with the repository's release information: tag_name and tag_date.
+#' NAs are returned in these columns if there are no releases.
 #'
 #' @importFrom magrittr %>%
 #' @import dplyr
@@ -71,12 +71,23 @@ get_release_info <- function(repo_name,
     # Read in json file
     release_info <- jsonlite::read_json(json_file)
 
-    releases <- data.frame(
-      tag_name = extract_entries(release_info, "tag_name"),
-      tag_date = extract_entries(release_info, "created_at")
-    ) %>%
-      dplyr::mutate(tag_date = as.Date(tag_date))
-
+    if (length(release_info) == 0) {
+      if (verbose) {
+        message(paste0("No releases for ", repo_name))
+      }
+      # If there is no releases, put an NA
+      releases <- data.frame(
+        tag_name = NA,
+        tag_date = NA
+      )
+    } else {
+      # If there are releases, get the tag name and date
+      releases <- data.frame(
+        tag_name = extract_entries(release_info, "tag_name"),
+        tag_date = extract_entries(release_info, "created_at")
+      ) %>%
+        dplyr::mutate(tag_date = as.Date(tag_date))
+    }
     if (!keep_json) {
       file.remove(json_file)
     }
