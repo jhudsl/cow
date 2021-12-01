@@ -62,7 +62,7 @@ get_repo_info <- function(repo_name,
     # Read in json file
     repo_info <- jsonlite::read_json(json_file)
 
-    if (keep_json) {
+    if (!keep_json) {
       file.remove(json_file)
     }
   } else {
