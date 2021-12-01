@@ -13,6 +13,8 @@ check_git_repo(
 )
 }
 \arguments{
+\item{repo_name}{the name of the repository, e.g. jhudsl/DaSL_Course_Template_Bookdown}
+
 \item{git_pat}{A personal access token from GitHub. Only necessary if the
 repository being checked is a private repository.}
 
@@ -23,8 +25,6 @@ command should be echoed back if it does fail.}
 should be saved to a file (if the repo exists)}
 
 \item{verbose}{TRUE/FALSE do you want more progress messages?}
-
-\item{repo}{the name of the repository, e.g. jhudsl/DaSL_Course_Template_Bookdown}
 }
 \value{
 A TRUE/FALSE whether or not the repository exists. Optionally the

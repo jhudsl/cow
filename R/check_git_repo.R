@@ -2,7 +2,7 @@
 #'
 #' Given a repository name, check with git ls-remote whether the repository exists and return a TRUE/FALSE
 #'
-#' @param repo the name of the repository, e.g. jhudsl/DaSL_Course_Template_Bookdown
+#' @param repo_name the name of the repository, e.g. jhudsl/DaSL_Course_Template_Bookdown
 #' @param git_pat A personal access token from GitHub. Only necessary if the
 #' repository being checked is a private repository.
 #' @param silent TRUE/FALSE of whether the warning from the git ls-remote

@@ -72,16 +72,17 @@ get_chapters <- function(repo_name,
 
     # Get release info
     release_info <- get_release_info(
-      repo_name = "jhudsl/ari",
+      repo_name = repo_name,
       git_pat = git_pat,
-      verbose = verbose
+      verbose = FALSE
     )
 
     if (!is.na(release_info$tag_name[1])){
       # Get the most recent release
       release_info <- release_info %>%
-        dplyr::arrange(tag_date) %>%
-        top_n(n = 1)
+        dplyr::arrange(tag_date)
+
+      release_info <- release_info[1, ]
     }
 
     # Read in html
@@ -97,7 +98,7 @@ get_chapters <- function(repo_name,
           dplyr::bind_rows() %>%
           dplyr::rename_with(~ gsub("-", "_", .x, fixed = TRUE)) %>%
           dplyr::mutate(
-            chapt_name = rvest::html_text(nodes),
+            chapt_name = stringr::word(rvest::html_text(nodes), sep = "\n", 1),
             url = paste0(pages_url, data_path),
             course = repo_name,
             release = release_info$tag_name,

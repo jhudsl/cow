@@ -47,6 +47,9 @@ retrieve_org_chapters <- function(org_name = NULL,
   # Put the names on this list
   names(all_chapters) <- repo_names
 
+  # Collapse to one character
+  all_chapters$learning_obj <- paste0(unlist(all_chapters$learning_obj), ";")
+
   # Get all the chapters for all these repos
   all_chapters_df <- all_chapters %>%
     dplyr::bind_rows(.id = "repo") %>%
