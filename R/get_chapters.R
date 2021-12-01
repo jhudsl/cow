@@ -1,6 +1,6 @@
 utils::globalVariables(c(
   "data_path"
-  ))
+))
 
 
 #' Retrieve bookdown chapters for a repository
@@ -34,52 +34,51 @@ get_chapters <- function(repo_name,
                          retrieve_learning_obj = FALSE,
                          verbose = TRUE) {
 
-  # Build auth argument
-  auth_arg <- get_git_auth(git_pat = git_pat)
+  # Get repo info
+  repo_info <- get_repo_info(
+    repo_name = repo_name,
+    git_pat = git_pat,
+    verbose = verbose
+  )
 
-  # Declare file name for this organization
-  json_file <- paste0(gsub("/", "-", repo_name), ".json")
+  # Get github pages url
+  pages_url <- get_pages_url(
+    repo_name = repo_name,
+    git_pat = git_pat,
+    verbose = FALSE
+  )
 
-  # Download the repos and save to file
-  curl_command <-
-    paste0(
-      "curl ",
-      # If we want curl to be quiet
-      ifelse(verbose, "", " -s "),
-      auth_arg,
-      " https://api.github.com/repos/",
-      repo_name,
-      "/pages",
-      " > ",
-      json_file
-    )
-
-  # Run the command
-  system(curl_command)
-
-  # Read in json file
-  repo_info <- jsonlite::read_json(json_file)
-
-  # Remove to clean up
-  file.remove(json_file)
-
+  # Create space holder data.frame
   chapt_data <- data.frame(
     data_level = NA,
     data_path = NA,
     chapt_name = NA,
     url = NA,
-    course = repo_name
+    released = NA,
+    course = repo_name,
+    release = NA,
+    release_date = NA
   )
 
   if (retrieve_learning_obj) {
     chapt_data$learning_obj <- NA
   }
 
-  if (!is.null(repo_info$html_url)) {
+  if (!is.null(pages_url)) {
     message(paste0("Retrieving chapters from: ", repo_name))
 
     # Build github pages names
-    gh_page <- paste0(repo_info$html_url, "index.html")
+    gh_page <- paste0(pages_url, "index.html")
+
+    # Get release info
+    release_info <- get_release_info(
+      repo_name = repo_name,
+      git_pat = git_pat,
+      verbose = verbose
+    ) %>%
+    # Get the most recent release
+    dplyr::arrange(tag_date) %>%
+      top_n(n = 1)
 
     # Read in html
     index_html <- suppressWarnings(try(xml2::read_html(paste(gh_page, collapse = "\n"))))
@@ -95,8 +94,10 @@ get_chapters <- function(repo_name,
           dplyr::rename_with(~ gsub("-", "_", .x, fixed = TRUE)) %>%
           dplyr::mutate(
             chapt_name = rvest::html_text(nodes),
-            url = paste0(repo_info$html_url, data_path),
-            course = repo_name
+            url = paste0(pages_url, data_path),
+            course = repo_name,
+            release = release_info$tag_name,
+            release_date = release_info$tag_date
           ) %>%
           dplyr::select(-class) %>%
           as.data.frame()

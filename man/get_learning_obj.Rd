@@ -29,5 +29,4 @@ Currently only public repositories are supported.
 url <- "https://jhudatascience.org/Documentation_and_Usability/what-does-good-documentation-look-like.html"
 
 get_learning_obj(url)
-
 }

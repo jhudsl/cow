@@ -7,6 +7,7 @@
 #' repository being checked is a private repository.
 #' @param silent TRUE/FALSE of whether the warning from the git ls-remote
 #' command should be echoed back if it does fail.
+#' @param verbose TRUE/FALSE do you want more progress messages?
 #' @param return_repo TRUE/FALSE of whether or not the output from git ls-remote
 #' should be saved to a file (if the repo exists)
 #'
@@ -18,12 +19,14 @@
 #' @examples
 #'
 #' check_git_repo("jhudsl/DaSL_Course_Template_Bookdown")
-check_git_repo <- function(repo,
+check_git_repo <- function(repo_name,
                            git_pat = NULL,
                            silent = TRUE,
-                           return_repo = FALSE) {
-  message(paste("Checking for remote git repository:", repo))
-
+                           return_repo = FALSE,
+                           verbose = TRUE) {
+  if (verbose) {
+    message(paste("Checking for remote git repository:", repo_name))
+  }
   # If silent = TRUE don't print out the warning message from the 'try'
   report <- ifelse(silent, suppressWarnings, message)
 
@@ -40,15 +43,15 @@ check_git_repo <- function(repo,
   if (!is.null(git_pat)) {
     # If git_pat is supplied, use it
     test_repo <- report(
-      try(system(paste0("git ls-remote https://", git_pat, "@github.com/", repo),
+      try(system(paste0("git ls-remote https://", git_pat, "@github.com/", repo_name),
         intern = TRUE, ignore.stderr = TRUE
       ))
     )
   } else {
 
-    # Try to git ls-remote the repo given
+    # Try to git ls-remote the repo_name given
     test_repo <- report(
-      try(system(paste0("git ls-remote https://github.com/", repo),
+      try(system(paste0("git ls-remote https://github.com/", repo_name),
         intern = TRUE, ignore.stderr = TRUE
       ))
     )
@@ -58,7 +61,7 @@ check_git_repo <- function(repo,
 
   if (return_repo && exists) {
     # Make file name
-    output_file <- paste0("git_ls_remote_", gsub("/", "_", repo))
+    output_file <- paste0("git_ls_remote_", gsub("/", "_", repo_name))
 
     # Tell the user the file was saved
     message(paste("Saving output from git ls-remote to file:", output_file))
