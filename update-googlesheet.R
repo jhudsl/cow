@@ -1,7 +1,7 @@
 # Update the jhu course library googlesheet
 # C. Savonen 2021
 
-if (!(installed.packages() %in% "remotes")){
+if (!(installed.packages() %in% "devtools")){
   install.packages("devtools")
 }
 

@@ -8,7 +8,7 @@ gitHelper accesses GitHub API from R and performs some course management functio
 
 You can install `gitHelpeR` from GitHub with:
 
-``` r
+```
 if (!(installed.packages() %in% "remotes")){
   install.packages("remotes")
 }
