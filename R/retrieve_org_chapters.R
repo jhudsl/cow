@@ -39,11 +39,19 @@ retrieve_org_chapters <- function(org_name = NULL,
     verbose = TRUE
   )
 
+  # If retrieve keywords is true, set up the model
+  if (retrieve_keywords) {
+    udmodel <- udpipe::udpipe_download_model(language = "english")
+    udmodel <- udpipe::udpipe_load_model(file = udmodel$file_model)
+  }
+
   # Retrieve all the chapters
   all_chapters <- lapply(repo_names,
     get_chapters,
     git_pat = git_pat,
-    retrieve_learning_obj = retrieve_learning_obj
+    retrieve_learning_obj = retrieve_learning_obj,
+    retrieve_keywords = retrieve_keywords,
+    udmodel = udmodel
   )
 
   # Put the names on this list

@@ -34,7 +34,8 @@ get_chapters <- function(repo_name,
                          git_pat = NULL,
                          retrieve_learning_obj = FALSE,
                          retrieve_keywords = TRUE,
-                         verbose = TRUE) {
+                         verbose = TRUE,
+                         udmodel = NULL) {
 
   # Get repo info
   repo_info <- get_repo_info(
@@ -67,7 +68,7 @@ get_chapters <- function(repo_name,
   }
 
   if (!is.null(pages_url)) {
-    message(paste0("Retrieving chapters from: ", repo_name))
+    message(paste0("Retrieving info from: ", repo_name))
 
     # Build github pages names
     gh_page <- paste0(pages_url, "index.html")
@@ -109,14 +110,32 @@ get_chapters <- function(repo_name,
           dplyr::select(-class) %>%
           as.data.frame()
 
+        # Get unique urls
+        unique_urls <- unique(chapt_data$url)
+
         if (retrieve_learning_obj) {
+
+          # Only run learning objectives for each unique url
+          learning_obj_key <- sapply(unique_urls, get_learning_obj)
+
+          # Match up the url to the found learning objectives
           chapt_data <- chapt_data %>%
-            dplyr::mutate(learning_obj = unlist(lapply(url, get_learning_obj)))
+            dplyr::mutate(learning_obj = dplyr::recode(url, !!!learning_obj_key))
         }
 
         if (retrieve_keywords) {
+
+          # Set up model if its not provided
+          if (is.null(udmodel)) {
+            udmodel <- udpipe::udpipe_download_model(language = "english")
+            udmodel <- udpipe::udpipe_load_model(file = udmodel$file_model)
+          }
+          # Only run keywords for each unique url
+          keywords_key <- sapply(unique_urls, get_keywords, udmodel = udmodel)
+
+          # Match up the url to the found learning objectives
           chapt_data <- chapt_data %>%
-            dplyr::mutate(keywords = unlist(lapply(url, get_keywords)))
+            dplyr::mutate(learning_obj = dplyr::recode(url, !!!keywords_key))
         }
       }
     }

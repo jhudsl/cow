@@ -23,7 +23,7 @@
 #'
 #' keywords_df <- get_keywords(url)
 #' 
-get_keywords <- function(url, min_occurrence = 4, file_model) {
+get_keywords <- function(url, min_occurrence = 4, udmodel = NULL) {
   
   # Get text from chapter url
   text <- htm2txt::gettxt(url)
@@ -37,12 +37,11 @@ get_keywords <- function(url, min_occurrence = 4, file_model) {
   text <- text[which(text != "")] 
   
   # Set up udmodel to get parts of speech
-  if (is.null(file_model)) {
+  if (is.null(udmodel)) {
     udmodel <- udpipe::udpipe_download_model(language = "english")
-    file_model <- udmodel$file_model
+    udmodel <- udpipe::udpipe_load_model(file = udmodel$file_model)
   }
-  udmodel <- udpipe::udpipe_load_model(file = file_model)
-  
+
   # Annotat parts of speech
   text_modeled <- udpipe_annotate(udmodel, text)
   

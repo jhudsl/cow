@@ -7,7 +7,8 @@ Authors@R:
            role = c("aut", "cre"),
            email = "cansav09@gmail.com")
 Description: gitHelper accesses GitHub API from R and performs some course
-  management functions, including retrieving chapter names and learning objectives for courses hosted on GitHub repositories.
+  management functions, including retrieving chapter names, learning objectives,
+  and keywords for courses hosted on GitHub repositories.
 License: GPL-3
 Imports: magrittr,
   xml2,
@@ -15,7 +16,11 @@ Imports: magrittr,
   rvest,
   jsonlite,
   gitcreds,
-  readr
+  readr,
+  htm2txt,
+  stringr,
+  textrank,
+  udpipe
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

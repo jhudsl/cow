@@ -6,7 +6,7 @@
 #' information for the Github page if it exists.
 #' Currently only public repositories are supported.
 #'
-#' @param chapt_url a url to a bookdown chapter
+#' @param url a url to a bookdown chapter
 #' e.g. "https://jhudatascience.org/Documentation_and_Usability/what-does-good-documentation-look-like.html"
 #' @param prompt A string character that is a prompt lead in to the Learning objectives and should be deleted.
 #'
@@ -23,10 +23,10 @@
 #' url <- "https://jhudatascience.org/Documentation_and_Usability/what-does-good-documentation-look-like.html"
 #'
 #' get_learning_obj(url)
-get_learning_obj <- function(chapt_url, prompt = "This chapter will demonstrate how to\\:") {
+get_learning_obj <- function(url, prompt = "This chapter will demonstrate how to\\:") {
 
   # Try chapter url
-  chapt_html <- suppressWarnings(try(xml2::read_html(paste(chapt_url, collapse = "\n"))))
+  chapt_html <- suppressWarnings(try(xml2::read_html(paste(url, collapse = "\n"))))
 
   # Extract chapter nodes
   nodes <- rvest::html_nodes(chapt_html, xpath = paste0("//", "img"))
