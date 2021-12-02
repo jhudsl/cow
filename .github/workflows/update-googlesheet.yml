@@ -15,7 +15,7 @@ jobs:
   update:
     runs-on: ubuntu-latest
     container:
-      image: rocker/tidyverse:4.0.0
+      image: jhudsl/course-library
 
     steps:
       # Checks-out the code from this repo
