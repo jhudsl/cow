@@ -111,6 +111,11 @@ get_chapters <- function(repo_name,
           chapt_data <- chapt_data %>%
             dplyr::mutate(learning_obj = unlist(lapply(url, get_learning_obj)))
         }
+
+        if (retrieve_keywords) {
+          chapt_data <- chapt_data %>%
+            dplyr::mutate(keywords = unlist(lapply(url, get_keywords)))
+        }
       }
     }
   }
