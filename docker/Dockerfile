@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends apt-utils dialo
 
 # Add curl, bzip2
 RUN apt-get update -qq && apt-get -y --no-install-recommends install \
+    libglpk-dev \
     bzip2 \
     curl
 
