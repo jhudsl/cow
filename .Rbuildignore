@@ -2,3 +2,6 @@
 ^\.Rproj\.user$
 ^.github
 update-googlesheet.R
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
