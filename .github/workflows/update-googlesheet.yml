@@ -22,6 +22,10 @@ jobs:
       - name: Checkout code from repo
         uses: actions/checkout@v2
 
+      # Get GITHUB PAT
+      - name: Get token
+        run: echo ${{ secrets.GH_PAT }} > git_token.txt
+
       # Run main function
       - name: Run build site
         run: |

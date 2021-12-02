@@ -1,7 +1,7 @@
 # Update the jhu course library googlesheet
 # C. Savonen 2021
 
-needed_packages <- c("devtools", "gitcreds","htm2txt","textrank", "udpipe")
+needed_packages <- c("devtools", "gitcreds", "htm2txt", "textrank", "udpipe")
 
 lapply(needed_packages, function(package_name) {
   if (!(package_name %in% installed.packages())){
@@ -18,10 +18,13 @@ devtools::load_all(root_dir)
 # Run onjhudsl org and retrieve keywords and learning objectives
 chapter_df <-
   gitHelpeR::retrieve_org_chapters(org_name = "jhudsl",
+                                   git_pat = readLines("git_token.txt"),
                                    output_file = "jhudsl_chapter_info.tsv",
                                    retrieve_learning_obj = TRUE,
                                    retrieve_keywords = TRUE,
                                    verbose = FALSE)
+
+file.remove("git_token.txt")
 
 # Save to googlseheet
 googlesheets4::sheet_write(data = chapter_df,
