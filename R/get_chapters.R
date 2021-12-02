@@ -1,7 +1,6 @@
 utils::globalVariables(c(
-  "data_path"
+  "data_path",  "tag_date", "token", "freq", "keyword"
 ))
-
 
 #' Retrieve bookdown chapters for a repository
 #'
@@ -17,6 +16,8 @@ utils::globalVariables(c(
 #' Authorization handled by \link[gitHelpeR]{get_git_auth}
 #' @param retrieve_learning_obj TRUE/FALSE attempt to retrieve learning objectives?
 #' @param retrieve_keywords TRUE/FALSE attempt to retrieve keywords from the chapter?
+#' @param udmodel A udmodel passed in for keyword determination. Will be obtained using
+#' `udpipe::udpipe_download_model(language = "english")` if its not given.
 #' @param verbose TRUE/FALSE do you want more progress messages?
 #'
 #' @return a data frame with the repository with the following columns:

@@ -1,7 +1,8 @@
 ^gitHelpeR\.Rproj$
 ^\.Rproj\.user$
 ^.github
-update-googlesheet.R
+^update-googlesheet.R$
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
+^english-ewt-ud-2.5-191206.udpipe$

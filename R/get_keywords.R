@@ -2,15 +2,17 @@
 #'
 #' Given an URL to a bookdown chapter, extract the keywords
 #'
-#' @param chapt_url a url to a bookdown chapter
+#' @param url a url to a bookdown chapter
 #' e.g. "https://jhudatascience.org/Documentation_and_Usability/what-does-good-documentation-look-like.html"
 #' @param min_occurrence A numeric number specifying the minimum number of times a keyword should appear for it to stay in the list. Default is 4.
-#'
+#' @param udmodel A udmodel passed in for keyword determination. Will be obtained using
+#' `udpipe::udpipe_download_model(language = "english")` if its not given.
 #' @return a data frame of keywords
 #'
 #' @importFrom magrittr %>%
 #' @importFrom udpipe udpipe_download_model
 #' @importFrom udpipe  udpipe_load_model
+#' @importFrom udpipe udpipe_annotate
 #' @importFrom textrank textrank_keywords
 #' @import dplyr
 #'
@@ -19,7 +21,7 @@
 #' @examples
 #'
 #' # Declare chapter URL
-#' url <- "https://jhudatascience.org/Documentation_and_Usability/what-does-good-documentation-look-like.html"
+#' url <- "https://jhudatascience.org/Documentation_and_Usability/other-helpful-features.html"
 #'
 #' keywords_df <- get_keywords(url)
 #'
@@ -28,7 +30,11 @@ get_keywords <- function(url, min_occurrence = 4, udmodel = NULL) {
   # Get text from chapter url
   text <- htm2txt::gettxt(url)
 
-  text <- gsub("\n|•", "", text)
+  # Only ascii characters
+  text <- stringi::stri_trans_general(text, "latin-ascii")
+
+  # Get rid of new line syntax
+  text <- gsub("\n", "", text)
 
   # Only keep sensible text
   text <- iconv(text, to = "UTF-8")
