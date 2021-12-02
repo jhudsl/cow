@@ -5,9 +5,6 @@ name: Test build of Dockerfile
 # Controls when the action will run. Triggers the workflow for a pull request for
 # master
 on:
-  release:
-    types:
-      - created
   pull_request:
     branches:
       - 'main'
