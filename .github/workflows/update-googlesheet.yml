@@ -25,5 +25,4 @@ jobs:
       # Run main function
       - name: Run build site
         run: |
-          Rscript -e "install.packages(c('gitcreds','htm2txt','textrank','udpipe'))"
           Rscript --vanilla "update-googlesheet.R"
