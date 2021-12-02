@@ -23,4 +23,5 @@ jobs:
       # Run main function
       - name: Run build site
         run: |
+          install.packages("devtools")
           Rscript --vanilla "update-googlesheet.R"

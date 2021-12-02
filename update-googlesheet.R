@@ -1,16 +1,14 @@
 # Update the jhu course library googlesheet
 # C. Savonen 2021
 
-if (!(installed.packages() %in% "devtools")){
+if (!("devtools" %in% installed.packages())){
   install.packages("devtools")
 }
 
 # We will load the latest gitHelpeR package root
 root_dir <- rprojroot::find_root(rprojroot::has_file("gitHelpeR.Rproj"))
 
-if (!(installed.packages() %in% "gitHelpeR")){
-  devtools::load_all(root_dir)
-}
+devtools::load_all(root_dir)
 
 # Run onjhudsl org and retrieve keywords and learning objectives
 chapter_df <-
