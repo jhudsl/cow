@@ -14,6 +14,8 @@ on:
 jobs:
   update:
     runs-on: ubuntu-latest
+    container:
+      image: rocker/tidyverse:4.0.2
 
     steps:
       # Checks-out the code from this repo
@@ -23,5 +25,4 @@ jobs:
       # Run main function
       - name: Run build site
         run: |
-          Rscript -e "install.packages('devtools')"
           Rscript --vanilla "update-googlesheet.R"
