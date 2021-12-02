@@ -22,4 +22,4 @@ jobs:
 
       # Run main function
       - name: Run build site
-        run: Rscript -e "update-googlesheet.R"
+        run: Rscript -vanilla "update-googlesheet.R"
