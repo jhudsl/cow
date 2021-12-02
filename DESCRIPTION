@@ -1,12 +1,12 @@
 Package: gitHelpeR
-Title: Helps with Git repo related things
+Title: Helps Manage Git Course Repos
 Version: 0.0.0.9000
 Authors@R:
     person(given = "Candace",
            family = "Savonen",
            role = c("aut", "cre"),
            email = "cansav09@gmail.com")
-Description: gitHelper accesses GitHub API from R and performs some course
+Description: Accesses GitHub API from R and performs some course
   management functions, including retrieving chapter names, learning objectives,
   and keywords for courses hosted on GitHub repositories.
 License: GPL-3

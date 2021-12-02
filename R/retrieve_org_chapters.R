@@ -12,8 +12,6 @@
 #' grab from a git pat set in the environment with usethis::create_github_token().
 #' @param retrieve_learning_obj TRUE/FALSE attempt to retrieve learning objectives?
 #' @param retrieve_keywords TRUE/FALSE attempt to retrieve keywords from the chapter?
-#' @param udmodel A udmodel passed in for keyword determination. Will be obtained using
-#' `udpipe::udpipe_download_model(language = "english")` if its not given.
 #' @param verbose TRUE/FALSE do you want more progress messages?
 #'
 #' @return A TRUE/FALSE whether or not the repository exists. Optionally the
