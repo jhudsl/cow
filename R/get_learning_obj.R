@@ -43,9 +43,12 @@ get_learning_obj <- function(chapt_url, prompt = "This chapter will demonstrate 
   # Get rid of "learning objectives" bit
   learning_objs <- gsub(prompt, "", learning_objs, ignore.case = TRUE)
 
-  # Trim white space
-  # Separate each learning objectives
-  learning_objs <- trimws(unlist(strsplit(learning_objs, "\\. ")))
+  # Trim white space and weird periods
+  learning_objs <- trimws(learning_objs)
+  learning_objs <- trimws(gsub("^\\.", "", learning_objs))
+
+  # Make it an NA if its blank
+  learning_objs <- ifelse(length(learning_objs) == 0 , NA, learning_objs)
 
   return(learning_objs)
 }

@@ -108,7 +108,8 @@ get_chapters <- function(repo_name,
           as.data.frame()
 
         if (retrieve_learning_obj) {
-          chapt_data$learning_obj <- lapply(chapt_data$url, get_learning_obj)
+          chapt_data <- chapt_data %>%
+            dplyr::mutate(learning_obj = unlist(lapply(url, get_learning_obj)))
         }
       }
     }
