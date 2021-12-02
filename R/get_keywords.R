@@ -49,7 +49,7 @@ get_keywords <- function(url, min_occurrence = 4, udmodel = NULL) {
   }
 
   # Annotat parts of speech
-  text_modeled <- udpipe_annotate(udmodel, text)
+  text_modeled <- udpipe::udpipe_annotate(udmodel, text)
 
   # Filter out jumbly stuffs
   text_df <- as.data.frame(text_modeled) %>%

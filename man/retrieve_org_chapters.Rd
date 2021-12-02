@@ -28,6 +28,9 @@ grab from a git pat set in the environment with usethis::create_github_token().}
 \item{retrieve_keywords}{TRUE/FALSE attempt to retrieve keywords from the chapter?}
 
 \item{verbose}{TRUE/FALSE do you want more progress messages?}
+
+\item{udmodel}{A udmodel passed in for keyword determination. Will be obtained using
+\code{udpipe::udpipe_download_model(language = "english")} if its not given.}
 }
 \value{
 A TRUE/FALSE whether or not the repository exists. Optionally the

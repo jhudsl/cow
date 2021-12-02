@@ -27,6 +27,9 @@ Authorization handled by \link[gitHelpeR]{get_git_auth}}
 \item{retrieve_keywords}{TRUE/FALSE attempt to retrieve keywords from the chapter?}
 
 \item{verbose}{TRUE/FALSE do you want more progress messages?}
+
+\item{udmodel}{A udmodel passed in for keyword determination. Will be obtained using
+\code{udpipe::udpipe_download_model(language = "english")} if its not given.}
 }
 \value{
 a data frame with the repository with the following columns:

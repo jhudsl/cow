@@ -23,7 +23,7 @@ Currently only public repositories are supported.
 \examples{
 
 # Declare chapter URL
-url <- "https://jhudatascience.org/Documentation_and_Usability/what-does-good-documentation-look-like.html"
+url <- "https://jhudatascience.org/Documentation_and_Usability/other-helpful-features.html"
 
 get_learning_obj(url)
 }
