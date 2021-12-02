@@ -10,18 +10,19 @@ Description: Accesses GitHub API from R and performs some course
   management functions, including retrieving chapter names, learning objectives,
   and keywords for courses hosted on GitHub repositories.
 License: GPL-3
-Imports: magrittr,
-  xml2,
-  dplyr,
-  rvest,
-  jsonlite,
-  gitcreds,
-  readr,
-  htm2txt,
-  stringr,
-  textrank,
-  udpipe,
-  stringi
+Imports: 
+    dplyr,
+    gitcreds,
+    htm2txt,
+    jsonlite,
+    magrittr,
+    readr,
+    rvest,
+    stringi,
+    stringr,
+    textrank,
+    udpipe,
+    xml2
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
