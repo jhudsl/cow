@@ -19,7 +19,6 @@ RUN Rscript -e  "install.packages( \
     'xml2', \
     'rvest', \
     'jsonlite', \
-    'gitcreds', \
     'stringi'))"
 
 # Set final workdir for commands

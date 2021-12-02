@@ -1,15 +1,6 @@
 # Update the jhu course library googlesheet
 # C. Savonen 2021
 
-needed_packages <- c("devtools", "gitcreds", "htm2txt", "textrank", "udpipe")
-
-lapply(needed_packages, function(package_name) {
-  if (!(package_name %in% installed.packages())){
-    install.packages(package_name, repos = "http://cran.us.r-project.org")
-  }
-})
-
-
 # We will load the latest gitHelpeR package root
 root_dir <- rprojroot::find_root(rprojroot::has_file("gitHelpeR.Rproj"))
 

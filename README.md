@@ -15,6 +15,16 @@ if (!(installed.packages() %in% "remotes")){
 remotes::install_github("jhudsl/gitHelpeR")
 ```
 
+For quick start up, or if you have installation problems, you can use the docker image:
+
+```
+docker run -it -v $PWD:/home/rstudio -e PASSWORD=password -p 8787:8787 jhudsl/course-library
+```
+Then in the browser of your choice, navigate to localhost:8787 and install from GitHub if you want the latest version.
+```
+remotes::install_github("jhudsl/gitHelpeR")
+```
+
 ## Set up with GitHub token
 
 If you want `gitHelpeR`, to have full capabilities you will need to give give your local RStudio a GitHub token.
