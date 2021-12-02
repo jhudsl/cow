@@ -30,6 +30,8 @@ utils::globalVariables(c(
 #' @examples
 #'
 #' get_chapters("jhudsl/Documentation_and_Usability")
+#'
+#'
 get_chapters <- function(repo_name,
                          git_pat = NULL,
                          retrieve_learning_obj = FALSE,

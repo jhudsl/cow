@@ -22,20 +22,20 @@
 #' url <- "https://jhudatascience.org/Documentation_and_Usability/what-does-good-documentation-look-like.html"
 #'
 #' keywords_df <- get_keywords(url)
-#' 
+#'
 get_keywords <- function(url, min_occurrence = 4, udmodel = NULL) {
-  
+
   # Get text from chapter url
   text <- htm2txt::gettxt(url)
-  
-  text <- gsub("\n", "", text)
-  
+
+  text <- gsub("\n|•", "", text)
+
   # Only keep sensible text
-  text <- iconv(text, to = "UTF-8") 
-  
+  text <- iconv(text, to = "UTF-8")
+
   # Remove blank strings
-  text <- text[which(text != "")] 
-  
+  text <- text[which(text != "")]
+
   # Set up udmodel to get parts of speech
   if (is.null(udmodel)) {
     udmodel <- udpipe::udpipe_download_model(language = "english")
@@ -44,19 +44,19 @@ get_keywords <- function(url, min_occurrence = 4, udmodel = NULL) {
 
   # Annotat parts of speech
   text_modeled <- udpipe_annotate(udmodel, text)
-  
+
   # Filter out jumbly stuffs
-  text_df <- as.data.frame(text_modeled) %>% 
+  text_df <- as.data.frame(text_modeled) %>%
     dplyr::filter(!grepl("^\\.|^\\-", token))
-  
+
   # Get stats for only adjectives and nouns
-  stats <- textrank::textrank_keywords(text_df$lemma, 
+  stats <- textrank::textrank_keywords(text_df$lemma,
                                        relevant = text_df$upos %in% c("ADJ", "NOUN"))
-  
+
   # Retrieve the keywords
-  keywords <- data.frame(stats$keywords) %>% 
-    dplyr::filter(freq > min_occurrence) %>% 
+  keywords <- data.frame(stats$keywords) %>%
+    dplyr::filter(freq > min_occurrence) %>%
     dplyr::pull(keyword)
-  
+
   return(paste0(keywords, collapse = ","))
 }
