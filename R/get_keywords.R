@@ -23,10 +23,10 @@
 #'
 #' keywords_df <- get_keywords(url)
 #' 
-get_keywords <- function(url, min_occurrence) {
+get_keywords <- function(url, min_occurrence = 4, file_model) {
   
   # Get text from chapter url
-  text <- htm2txt::gettxt(chapt_url)
+  text <- htm2txt::gettxt(url)
   
   text <- gsub("\n", "", text)
   
@@ -37,8 +37,11 @@ get_keywords <- function(url, min_occurrence) {
   text <- text[which(text != "")] 
   
   # Set up udmodel to get parts of speech
-  udmodel <- udpipe::udpipe_download_model(language = "english")
-  udmodel <- udpipe::udpipe_load_model(file = udmodel$file_model)
+  if (is.null(file_model)) {
+    udmodel <- udpipe::udpipe_download_model(language = "english")
+    file_model <- udmodel$file_model
+  }
+  udmodel <- udpipe::udpipe_load_model(file = file_model)
   
   # Annotat parts of speech
   text_modeled <- udpipe_annotate(udmodel, text)
@@ -53,7 +56,8 @@ get_keywords <- function(url, min_occurrence) {
   
   # Retrieve the keywords
   keywords <- data.frame(stats$keywords) %>% 
-    dplyr::filter(freq > min_occurrence)
+    dplyr::filter(freq > min_occurrence) %>% 
+    dplyr::pull(keyword)
   
-  return(keywords)
+  return(paste0(keywords, collapse = ","))
 }

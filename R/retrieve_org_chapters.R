@@ -11,6 +11,7 @@
 #' access token needs to be supplied. If none is supplied, then this will attempt to
 #' grab from a git pat set in the environment with usethis::create_github_token().
 #' @param retrieve_learning_obj TRUE/FALSE attempt to retrieve learning objectives?
+#' @param retrieve_keywords TRUE/FALSE attempt to retrieve keywords from the chapter?
 #' @param verbose TRUE/FALSE do you want more progress messages?
 #'
 #' @return A TRUE/FALSE whether or not the repository exists. Optionally the
@@ -28,6 +29,7 @@ retrieve_org_chapters <- function(org_name = NULL,
                                   output_file = "org_chapter_info.tsv",
                                   git_pat = NULL,
                                   retrieve_learning_obj = FALSE,
+                                  retrieve_keywords = TRUE,
                                   verbose = TRUE) {
 
   # Retrieve all the repos for an org
