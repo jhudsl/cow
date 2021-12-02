@@ -9,6 +9,7 @@ retrieve_org_chapters(
   output_file = "org_chapter_info.tsv",
   git_pat = NULL,
   retrieve_learning_obj = FALSE,
+  retrieve_keywords = TRUE,
   verbose = TRUE
 )
 }
@@ -23,6 +24,8 @@ access token needs to be supplied. If none is supplied, then this will attempt t
 grab from a git pat set in the environment with usethis::create_github_token().}
 
 \item{retrieve_learning_obj}{TRUE/FALSE attempt to retrieve learning objectives?}
+
+\item{retrieve_keywords}{TRUE/FALSE attempt to retrieve keywords from the chapter?}
 
 \item{verbose}{TRUE/FALSE do you want more progress messages?}
 }
