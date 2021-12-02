@@ -5,7 +5,7 @@ needed_packages <- c("devtools", "gitcreds","htm2txt","textrank", "udpipe")
 
 lapply(needed_packages, function(package_name) {
   if (!(package_name %in% installed.packages())){
-    install.packages(package_name)
+    install.packages(package_name, repos = "http://cran.us.r-project.org")
   }
 })
 
