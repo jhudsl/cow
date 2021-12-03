@@ -45,31 +45,21 @@ get_release_info <- function(repo_name,
       git_pat = git_pat
     )
 
-    # Get release URL
-    release_api <- gsub("{/id}", "", repo_info$releases_url,
-      fixed = TRUE
-    )
+    # Declare URL
+    url <-  gsub("{/id}", "", repo_info$releases_url,
+                 fixed = TRUE)
 
-    # Declare file name for this organization
-    json_file <- paste0(gsub("/", "-", repo_name), "-release.json")
+    # Github api get
+    response <- httr::GET(url,
+                          httr::add_headers(Authorization = paste0("token ", auth_arg$password)),
+                          httr::accept_json())
 
-    # Download the repos and save to file
-    curl_command <-
-      paste0(
-        "curl ",
-        # If we want curl to be quiet
-        ifelse(verbose, "", " -s "),
-        auth_arg,
-        " ", release_api,
-        " > ",
-        json_file
-      )
+    if (httr::http_error(response)) {
+      warning(paste0("url: ", url, " failed"))
+    }
 
-    # Run the command
-    system(curl_command)
-
-    # Read in json file
-    release_info <- jsonlite::read_json(json_file)
+    # Get content as JSON
+    release_info <- httr::content(response, as = "parsed")
 
     if (length(release_info) == 0) {
       if (verbose) {
@@ -87,9 +77,6 @@ get_release_info <- function(repo_name,
         tag_date = extract_entries(release_info, "created_at")
       ) %>%
         dplyr::mutate(tag_date = as.Date(tag_date))
-    }
-    if (!keep_json) {
-      file.remove(json_file)
     }
   } else {
     warning(paste0(repo_name, " could not be found with the given credentials."))

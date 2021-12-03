@@ -30,27 +30,20 @@ retrieve_org_repos <- function(org_name = NULL,
   # Build auth argument
   auth_arg <- get_git_auth(git_pat = git_pat)
 
-  # Declare file name for this organization
-  json_file <- paste0(org_name, "-repos.json")
+  # Declare URL
+  url <- paste0("https://api.github.com/orgs/", org_name, "/repos?per_page=1000000")
 
-  # Download the repos and save to file
-  curl_command <-
-    paste0(
-      "curl ",
-      # If we want curl to be quiet
-      ifelse(verbose, "", " -s "),
-      auth_arg,
-      " https://api.github.com/orgs/",
-      org_name,
-      "/repos?per_page=1000000 > ",
-      json_file
-    )
+  # Github api get
+  response <- httr::GET(url,
+                        httr::add_headers(Authorization = paste0("token ", auth_arg$password)),
+                        httr::accept_json())
 
-  # Run the command
-  system(curl_command)
+  if (httr::http_error(response)) {
+    warning(paste0("url: ", url, " failed"))
+  }
 
-  # Read in json file
-  repos <- jsonlite::read_json(json_file)
+  # Get content as JSON
+  repos <- httr::content(response, as = "parsed")
 
   # Collect repo names
   repo_names_index <- grep("^full_name$", names(unlist(repos)))

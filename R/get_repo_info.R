@@ -15,7 +15,10 @@
 #' @return a data frame with the repository with the following columns:
 #' data_level, data_path, chapt_name, url, repository name
 #'
-#' @importFrom magrittr %>%
+#' @importFrom httr GET
+#' @importFrom httr accept_json
+#' @importFrom httr authenticate
+#' @importFrom gitcreds gitcreds_get
 #' @import dplyr
 #'
 #' @export
@@ -40,31 +43,21 @@ get_repo_info <- function(repo_name,
   )
 
   if (exists) {
-    # Declare file name for this organization
-    json_file <- paste0(gsub("/", "-", repo_name), ".json")
+    # Declare URL
+    url <- paste0("https://api.github.com/repos/", repo_name)
 
-    # Download the repos and save to file
-    curl_command <-
-      paste0(
-        "curl ",
-        # If we want curl to be quiet
-        ifelse(verbose, "", " -s "),
-        auth_arg,
-        " https://api.github.com/repos/",
-        repo_name,
-        " > ",
-        json_file
-      )
+    # Github api get
+    response <- httr::GET(url,
+                          httr::add_headers(Authorization = paste0("token ", auth_arg$password)),
+                          httr::accept_json())
 
-    # Run the command
-    system(curl_command)
-
-    # Read in json file
-    repo_info <- jsonlite::read_json(json_file)
-
-    if (!keep_json) {
-      file.remove(json_file)
+    if (httr::http_error(response)) {
+      warning(paste0("url: ", url, " failed"))
     }
+
+    # Get content as JSON
+    repo_info <- httr::content(response, as = "parsed")
+
   } else {
     warning(paste0(repo_name, " could not be found with the given credentials."))
   }

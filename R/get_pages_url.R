@@ -44,34 +44,23 @@ get_pages_url <- function(repo_name,
       git_pat = git_pat
     )
 
-    # Declare file name for this organization
-    json_file <- paste0(gsub("/", "-", repo_name), "-pages.json")
+    # Declare URL
+    url <- paste0("https://api.github.com/repos/", repo_name, "/pages")
 
-    # Download the repos and save to file
-    curl_command <-
-      paste0(
-        "curl ",
-        # If we want curl to be quiet
-        ifelse(verbose, "", " -s "),
-        auth_arg,
-        " https://api.github.com/repos/",
-        repo_name,
-        "/pages",
-        " > ",
-        json_file
-      )
+    # Github api get
+    response <- httr::GET(url,
+                          httr::add_headers(Authorization = paste0("token ", auth_arg$password)),
+                          httr::accept_json())
 
-    # Run the command
-    system(curl_command)
-
-    # Read in json file
-    pages_info <- jsonlite::read_json(json_file)
-
-    if (!keep_json) {
-      file.remove(json_file)
+    if (httr::http_error(response)) {
+      warning(paste0("url: ", url, " failed"))
     }
+
+    # Get content as JSON
+    page_info <- httr::content(response, as = "parsed")
+
   } else {
     warning(paste0(repo_name, " could not be found with the given credentials."))
   }
-  return(pages_info$html_url)
+  return(page_info$html_url)
 }
