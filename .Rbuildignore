@@ -8,4 +8,6 @@
 ^english-ewt-ud-2.5-191206.udpipe$
 ^jhudsl_chapter_info.tsv$
 ^jhudsl-repos.json$
-^docker/$
+^docker$
+^.local$
+^.rstudio$

@@ -26,7 +26,7 @@ get_pages_url <- function(repo_name,
                           git_pat = NULL,
                           verbose = FALSE,
                           keep_json = FALSE) {
-  releases <- NA
+  page_url <- NA
 
   # Build auth argument
   auth_arg <- get_git_auth(git_pat = git_pat)
@@ -59,8 +59,9 @@ get_pages_url <- function(repo_name,
     # Get content as JSON
     page_info <- httr::content(response, as = "parsed")
 
+    page_url <- page_info$html_url
   } else {
     warning(paste0(repo_name, " could not be found with the given credentials."))
   }
-  return(page_info$html_url)
+  return(page_url)
 }
