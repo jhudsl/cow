@@ -20,11 +20,12 @@
 #' @export
 #'
 #' @examples
-#'
+#' \dontrun{
 #' retrieve_org_chapters(
 #'   org_name = "jhudsl",
 #'   output_file = "jhudsl_chapter_info.tsv"
 #' )
+#' }
 retrieve_org_chapters <- function(org_name = NULL,
                                   output_file = "org_chapter_info.tsv",
                                   git_pat = NULL,

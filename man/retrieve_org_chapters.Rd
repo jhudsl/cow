@@ -39,9 +39,10 @@ information for all the Github pages that exist for all the repositories.
 Currently only public repositories are supported.
 }
 \examples{
-
+\dontrun{
 retrieve_org_chapters(
   org_name = "jhudsl",
   output_file = "jhudsl_chapter_info.tsv"
 )
+}
 }
