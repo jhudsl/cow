@@ -11,6 +11,7 @@
 #' access token needs to be supplied. If none is supplied, then this will attempt to
 #' grab from a git pat set in the environment with usethis::create_github_token().
 #' @param retrieve_learning_obj TRUE/FALSE attempt to retrieve learning objectives?
+#' @param retrieve_keywords TRUE/FALSE attempt to retrieve keywords from the chapter?
 #' @param verbose TRUE/FALSE do you want more progress messages?
 #'
 #' @return A TRUE/FALSE whether or not the repository exists. Optionally the
@@ -19,15 +20,17 @@
 #' @export
 #'
 #' @examples
-#'
+#' \dontrun{
 #' retrieve_org_chapters(
 #'   org_name = "jhudsl",
 #'   output_file = "jhudsl_chapter_info.tsv"
 #' )
+#' }
 retrieve_org_chapters <- function(org_name = NULL,
                                   output_file = "org_chapter_info.tsv",
                                   git_pat = NULL,
                                   retrieve_learning_obj = FALSE,
+                                  retrieve_keywords = TRUE,
                                   verbose = TRUE) {
 
   # Retrieve all the repos for an org
@@ -37,11 +40,19 @@ retrieve_org_chapters <- function(org_name = NULL,
     verbose = TRUE
   )
 
+  # If retrieve keywords is true, set up the model
+  if (retrieve_keywords) {
+    udmodel <- udpipe::udpipe_download_model(language = "english")
+    udmodel <- udpipe::udpipe_load_model(file = udmodel$file_model)
+  }
+
   # Retrieve all the chapters
   all_chapters <- lapply(repo_names,
     get_chapters,
     git_pat = git_pat,
-    retrieve_learning_obj = retrieve_learning_obj
+    retrieve_learning_obj = retrieve_learning_obj,
+    retrieve_keywords = retrieve_keywords,
+    udmodel = udmodel
   )
 
   # Put the names on this list

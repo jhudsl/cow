@@ -1,7 +1,6 @@
 utils::globalVariables(c(
-  "data_path"
-  ))
-
+  "data_path", "tag_date", "token", "freq", "keyword"
+))
 
 #' Retrieve bookdown chapters for a repository
 #'
@@ -16,6 +15,9 @@ utils::globalVariables(c(
 #' grab from a git pat set in the environment with usethis::create_github_token().
 #' Authorization handled by \link[gitHelpeR]{get_git_auth}
 #' @param retrieve_learning_obj TRUE/FALSE attempt to retrieve learning objectives?
+#' @param retrieve_keywords TRUE/FALSE attempt to retrieve keywords from the chapter?
+#' @param udmodel A udmodel passed in for keyword determination. Will be obtained using
+#' `udpipe::udpipe_download_model(language = "english")` if its not given.
 #' @param verbose TRUE/FALSE do you want more progress messages?
 #'
 #' @return a data frame with the repository with the following columns:
@@ -32,54 +34,60 @@ utils::globalVariables(c(
 get_chapters <- function(repo_name,
                          git_pat = NULL,
                          retrieve_learning_obj = FALSE,
-                         verbose = TRUE) {
+                         retrieve_keywords = TRUE,
+                         verbose = TRUE,
+                         udmodel = NULL) {
 
-  # Build auth argument
-  auth_arg <- get_git_auth(git_pat = git_pat)
+  # Get repo info
+  repo_info <- get_repo_info(
+    repo_name = repo_name,
+    git_pat = git_pat,
+    verbose = verbose
+  )
 
-  # Declare file name for this organization
-  json_file <- paste0(gsub("/", "-", repo_name), ".json")
+  # Get github pages url
+  pages_url <- get_pages_url(
+    repo_name = repo_name,
+    git_pat = git_pat,
+    verbose = FALSE
+  )
 
-  # Download the repos and save to file
-  curl_command <-
-    paste0(
-      "curl ",
-      # If we want curl to be quiet
-      ifelse(verbose, "", " -s "),
-      auth_arg,
-      " https://api.github.com/repos/",
-      repo_name,
-      "/pages",
-      " > ",
-      json_file
-    )
-
-  # Run the command
-  system(curl_command)
-
-  # Read in json file
-  repo_info <- jsonlite::read_json(json_file)
-
-  # Remove to clean up
-  file.remove(json_file)
-
+  # Create space holder data.frame
   chapt_data <- data.frame(
     data_level = NA,
     data_path = NA,
     chapt_name = NA,
     url = NA,
-    course = repo_name
+    released = NA,
+    course = repo_name,
+    release = NA,
+    release_date = NA
   )
 
   if (retrieve_learning_obj) {
     chapt_data$learning_obj <- NA
   }
 
-  if (!is.null(repo_info$html_url)) {
-    message(paste0("Retrieving chapters from: ", repo_name))
+  if (!is.na(pages_url)) {
+    message(paste0("Retrieving info from: ", repo_name))
 
     # Build github pages names
-    gh_page <- paste0(repo_info$html_url, "index.html")
+    gh_page <- paste0(pages_url, "index.html")
+
+    # Get release info
+    release_info <- get_release_info(
+      repo_name = repo_name,
+      git_pat = git_pat,
+      verbose = FALSE
+    )
+
+    if (!is.na(release_info$tag_name[1])) {
+      # Get the most recent release
+      release_info <- release_info %>%
+        dplyr::arrange(tag_date)
+
+      release_info <- release_info[1, ]
+    }
 
     # Read in html
     index_html <- suppressWarnings(try(xml2::read_html(paste(gh_page, collapse = "\n"))))
@@ -94,15 +102,41 @@ get_chapters <- function(repo_name,
           dplyr::bind_rows() %>%
           dplyr::rename_with(~ gsub("-", "_", .x, fixed = TRUE)) %>%
           dplyr::mutate(
-            chapt_name = rvest::html_text(nodes),
-            url = paste0(repo_info$html_url, data_path),
-            course = repo_name
+            chapt_name = stringr::word(rvest::html_text(nodes), sep = "\n", 1),
+            url = paste0(pages_url, data_path),
+            course = repo_name,
+            release = release_info$tag_name,
+            release_date = release_info$tag_date
           ) %>%
           dplyr::select(-class) %>%
           as.data.frame()
 
+        # Get unique urls
+        unique_urls <- unique(chapt_data$url)
+
         if (retrieve_learning_obj) {
-          chapt_data$learning_obj <- lapply(chapt_data$url, get_learning_obj)
+
+          # Only run learning objectives for each unique url
+          learning_obj_key <- sapply(unique_urls, get_learning_obj)
+
+          # Match up the url to the found learning objectives
+          chapt_data <- chapt_data %>%
+            dplyr::mutate(learning_obj = dplyr::recode(url, !!!learning_obj_key))
+        }
+
+        if (retrieve_keywords) {
+
+          # Set up model if its not provided
+          if (is.null(udmodel)) {
+            udmodel <- udpipe::udpipe_download_model(language = "english")
+            udmodel <- udpipe::udpipe_load_model(file = udmodel$file_model)
+          }
+          # Only run keywords for each unique url
+          keywords_key <- sapply(unique_urls, get_keywords, udmodel = udmodel)
+
+          # Match up the url to the found learning objectives
+          chapt_data <- chapt_data %>%
+            dplyr::mutate(learning_obj = dplyr::recode(url, !!!keywords_key))
         }
       }
     }

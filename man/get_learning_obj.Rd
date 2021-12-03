@@ -4,13 +4,10 @@
 \alias{get_learning_obj}
 \title{Retrieve learning objectives for a chapter}
 \usage{
-get_learning_obj(
-  chapt_url,
-  prompt = "This chapter will demonstrate how to\\\\:"
-)
+get_learning_obj(url, prompt = "This chapter will demonstrate how to\\\\:")
 }
 \arguments{
-\item{chapt_url}{a url to a bookdown chapter
+\item{url}{a url to a bookdown chapter
 e.g. "https://jhudatascience.org/Documentation_and_Usability/what-does-good-documentation-look-like.html"}
 
 \item{prompt}{A string character that is a prompt lead in to the Learning objectives and should be deleted.}
@@ -26,8 +23,7 @@ Currently only public repositories are supported.
 \examples{
 
 # Declare chapter URL
-url <- "https://jhudatascience.org/Documentation_and_Usability/what-does-good-documentation-look-like.html"
+url <- "https://jhudatascience.org/Documentation_and_Usability/other-helpful-features.html"
 
 get_learning_obj(url)
-
 }
