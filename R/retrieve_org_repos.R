@@ -33,12 +33,20 @@ retrieve_org_repos <- function(org_name = NULL,
   # Declare URL
   url <- paste0("https://api.github.com/orgs/", org_name, "/repos?per_page=1000000")
 
-  # Github api get
-  response <- httr::GET(
-    url,
-    httr::add_headers(Authorization = paste0("token ", auth_arg$password)),
-    httr::accept_json()
-  )
+  if (is.null(auth_arg$password)){
+    # Github api get without authorization
+    response <- httr::GET(
+      url,
+      httr::accept_json()
+    )
+  } else {
+    # Github api get
+    response <- httr::GET(
+      url,
+      httr::add_headers(Authorization = paste0("token ", auth_arg$password)),
+      httr::accept_json()
+    )
+  }
 
   if (httr::http_error(response)) {
     warning(paste0("url: ", url, " failed"))
