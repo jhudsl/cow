@@ -21,7 +21,7 @@
 #'
 #' @examples
 #'
-#' release_info <- get_pages_url("jhudsl/DaSL_Course_Template_Bookdown")
+#' pages_url <- get_pages_url("jhudsl/DaSL_Course_Template_Bookdown")
 get_pages_url <- function(repo_name,
                           git_pat = NULL,
                           verbose = FALSE,
@@ -57,7 +57,9 @@ get_pages_url <- function(repo_name,
       )
 
       if (httr::http_error(response)) {
-        warning(paste0("url: ", url, " failed"))
+        if (verbose) {
+          warning(paste0("url: ", url, " failed"))
+        }
       } else {
         # Get content as JSON
         page_info <- httr::content(response, as = "parsed")

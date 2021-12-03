@@ -68,7 +68,7 @@ get_chapters <- function(repo_name,
     chapt_data$learning_obj <- NA
   }
 
-  if (!is.null(pages_url)) {
+  if (!is.na(pages_url)) {
     message(paste0("Retrieving info from: ", repo_name))
 
     # Build github pages names
