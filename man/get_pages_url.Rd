@@ -28,5 +28,5 @@ Given an repository on GitHub, retrieve the pages URL for it.
 }
 \examples{
 
-release_info <- get_pages_url("jhudsl/DaSL_Course_Template_Bookdown")
+pages_url <- get_pages_url("jhudsl/DaSL_Course_Template_Bookdown")
 }

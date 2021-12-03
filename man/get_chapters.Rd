@@ -43,6 +43,4 @@ Currently only public repositories are supported.
 \examples{
 
 get_chapters("jhudsl/Documentation_and_Usability")
-
-
 }

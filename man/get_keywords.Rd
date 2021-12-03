@@ -27,5 +27,4 @@ Given an URL to a bookdown chapter, extract the keywords
 url <- "https://jhudatascience.org/Documentation_and_Usability/other-helpful-features.html"
 
 keywords_df <- get_keywords(url)
-
 }

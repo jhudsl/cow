@@ -24,7 +24,8 @@ RUN Rscript -e  "install.packages( \
     'xml2', \
     'rvest', \
     'jsonlite', \
-    'stringi'))"
+    'stringi', \
+    'googlesheets4'))"
 
 # Install packages from github
 RUN Rscript install_github.R \

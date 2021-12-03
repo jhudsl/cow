@@ -10,6 +10,7 @@
 #' @param verbose TRUE/FALSE do you want more progress messages?
 #' @param return_repo TRUE/FALSE of whether or not the output from git ls-remote
 #' should be saved to a file (if the repo exists)
+#' @param no_creds mainly for development purposes, if TRUE, will not ask for credentials.
 #'
 #' @return A TRUE/FALSE whether or not the repository exists. Optionally the
 #' output from git ls-remote if return_repo = TRUE.
@@ -23,14 +24,20 @@ check_git_repo <- function(repo_name,
                            git_pat = NULL,
                            silent = TRUE,
                            return_repo = FALSE,
-                           verbose = TRUE) {
+                           verbose = TRUE,
+                           no_creds = FALSE) {
+
+  if (no_creds) {
+    git_pat <- ""
+  }
+
   if (verbose) {
     message(paste("Checking for remote git repository:", repo_name))
   }
   # If silent = TRUE don't print out the warning message from the 'try'
   report <- ifelse(silent, suppressWarnings, message)
 
-  if (is.null(git_pat)) {
+  if (is.null(git_pat) && !no_creds) {
     git_pat <- gitcreds::gitcreds_get()$password
     if (is.null(git_pat)) {
       warning("No github credentials found or provided.
