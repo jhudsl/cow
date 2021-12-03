@@ -24,7 +24,6 @@
 #' url <- "https://jhudatascience.org/Documentation_and_Usability/other-helpful-features.html"
 #'
 #' keywords_df <- get_keywords(url)
-#'
 get_keywords <- function(url, min_occurrence = 4, udmodel = NULL) {
 
   # Get text from chapter url
@@ -57,7 +56,8 @@ get_keywords <- function(url, min_occurrence = 4, udmodel = NULL) {
 
   # Get stats for only adjectives and nouns
   stats <- textrank::textrank_keywords(text_df$lemma,
-                                       relevant = text_df$upos %in% c("ADJ", "NOUN"))
+    relevant = text_df$upos %in% c("ADJ", "NOUN")
+  )
 
   # Retrieve the keywords
   keywords <- data.frame(stats$keywords) %>%

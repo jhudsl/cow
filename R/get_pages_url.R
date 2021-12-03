@@ -31,37 +31,42 @@ get_pages_url <- function(repo_name,
   # Build auth argument
   auth_arg <- get_git_auth(git_pat = git_pat)
 
-  exists <- check_git_repo(
-    repo_name = repo_name,
-    git_pat = git_pat,
-    verbose = verbose
-  )
-
-  if (exists) {
-    # Get repo info
-    repo_info <- get_repo_info(
+  # We can only retrieve pages if we have the credentials
+  if (!is.null(auth_arg$password)) {
+    exists <- check_git_repo(
       repo_name = repo_name,
-      git_pat = git_pat
+      git_pat = git_pat,
+      verbose = verbose
     )
 
-    # Declare URL
-    url <- paste0("https://api.github.com/repos/", repo_name, "/pages")
+    if (exists) {
+      # Get repo info
+      repo_info <- get_repo_info(
+        repo_name = repo_name,
+        git_pat = git_pat
+      )
 
-    # Github api get
-    response <- httr::GET(url,
-                          httr::add_headers(Authorization = paste0("token ", auth_arg$password)),
-                          httr::accept_json())
+      # Declare URL
+      url <- paste0("https://api.github.com/repos/", repo_name, "/pages")
 
-    if (httr::http_error(response)) {
-      warning(paste0("url: ", url, " failed"))
+      # Github api get
+      response <- httr::GET(
+        url,
+        httr::add_headers(Authorization = paste0("token ", auth_arg$password)),
+        httr::accept_json()
+      )
+
+      if (httr::http_error(response)) {
+        warning(paste0("url: ", url, " failed"))
+      } else {
+        # Get content as JSON
+        page_info <- httr::content(response, as = "parsed")
+
+        page_url <- page_info$html_url
+      }
     }
-
-    # Get content as JSON
-    page_info <- httr::content(response, as = "parsed")
-
-    page_url <- page_info$html_url
   } else {
-    warning(paste0(repo_name, " could not be found with the given credentials."))
+    warning("Cannot retrieve page info without GitHub credentials. Passing an NA.")
   }
   return(page_url)
 }

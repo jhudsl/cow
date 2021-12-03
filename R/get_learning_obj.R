@@ -48,7 +48,7 @@ get_learning_obj <- function(url, prompt = "This chapter will demonstrate how to
   learning_objs <- trimws(gsub("^\\.", "", learning_objs))
 
   # Make it an NA if its blank
-  learning_objs <- ifelse(length(learning_objs) == 0 , NA, learning_objs)
+  learning_objs <- ifelse(length(learning_objs) == 0, NA, learning_objs)
 
   return(learning_objs)
 }

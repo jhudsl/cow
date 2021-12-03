@@ -1,5 +1,5 @@
 utils::globalVariables(c(
-  "data_path",  "tag_date", "token", "freq", "keyword"
+  "data_path", "tag_date", "token", "freq", "keyword"
 ))
 
 #' Retrieve bookdown chapters for a repository
@@ -31,8 +31,6 @@ utils::globalVariables(c(
 #' @examples
 #'
 #' get_chapters("jhudsl/Documentation_and_Usability")
-#'
-#'
 get_chapters <- function(repo_name,
                          git_pat = NULL,
                          retrieve_learning_obj = FALSE,
@@ -83,7 +81,7 @@ get_chapters <- function(repo_name,
       verbose = FALSE
     )
 
-    if (!is.na(release_info$tag_name[1])){
+    if (!is.na(release_info$tag_name[1])) {
       # Get the most recent release
       release_info <- release_info %>%
         dplyr::arrange(tag_date)

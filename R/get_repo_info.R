@@ -47,9 +47,11 @@ get_repo_info <- function(repo_name,
     url <- paste0("https://api.github.com/repos/", repo_name)
 
     # Github api get
-    response <- httr::GET(url,
-                          httr::add_headers(Authorization = paste0("token ", auth_arg$password)),
-                          httr::accept_json())
+    response <- httr::GET(
+      url,
+      httr::add_headers(Authorization = paste0("token ", auth_arg$password)),
+      httr::accept_json()
+    )
 
     if (httr::http_error(response)) {
       warning(paste0("url: ", url, " failed"))
@@ -57,7 +59,6 @@ get_repo_info <- function(repo_name,
 
     # Get content as JSON
     repo_info <- httr::content(response, as = "parsed")
-
   } else {
     warning(paste0(repo_name, " could not be found with the given credentials."))
   }

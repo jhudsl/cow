@@ -34,9 +34,11 @@ retrieve_org_repos <- function(org_name = NULL,
   url <- paste0("https://api.github.com/orgs/", org_name, "/repos?per_page=1000000")
 
   # Github api get
-  response <- httr::GET(url,
-                        httr::add_headers(Authorization = paste0("token ", auth_arg$password)),
-                        httr::accept_json())
+  response <- httr::GET(
+    url,
+    httr::add_headers(Authorization = paste0("token ", auth_arg$password)),
+    httr::accept_json()
+  )
 
   if (httr::http_error(response)) {
     warning(paste0("url: ", url, " failed"))

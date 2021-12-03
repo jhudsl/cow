@@ -19,7 +19,6 @@
 extract_entries <- function(api_list,
                             entry_name,
                             fixed = TRUE) {
-
   list_names <- names(unlist(api_list))
 
   if (fixed) {

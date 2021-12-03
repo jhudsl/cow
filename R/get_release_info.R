@@ -46,13 +46,16 @@ get_release_info <- function(repo_name,
     )
 
     # Declare URL
-    url <-  gsub("{/id}", "", repo_info$releases_url,
-                 fixed = TRUE)
+    url <- gsub("{/id}", "", repo_info$releases_url,
+      fixed = TRUE
+    )
 
     # Github api get
-    response <- httr::GET(url,
-                          httr::add_headers(Authorization = paste0("token ", auth_arg$password)),
-                          httr::accept_json())
+    response <- httr::GET(
+      url,
+      httr::add_headers(Authorization = paste0("token ", auth_arg$password)),
+      httr::accept_json()
+    )
 
     if (httr::http_error(response)) {
       warning(paste0("url: ", url, " failed"))
