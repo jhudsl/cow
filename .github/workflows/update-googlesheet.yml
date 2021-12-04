@@ -29,4 +29,6 @@ jobs:
       # Run main function
       - name: Run build site
         run: |
-          Rscript --vanilla "update-googlesheet.R"
+          Rscript --vanilla update-googlesheet.R \
+            --access_token ${{ secrets.GS_ACCESS_TOKEN }}
+            --refresh_token ${{ secrets.GS_REFRESH_TOKEN }}

@@ -33,7 +33,6 @@ authorize_from_secret <- function(access_token, refresh_token) {
   return(token)
 }
 
-
 library(optparse)
 
 ################################ Set up options ################################
@@ -54,14 +53,19 @@ option_list <- list(
 # Parse options
 opt <- parse_args(OptionParser(option_list = option_list))
 
-authorize_from_secret(
+# Set up token
+token <- authorize_from_secret(
   opt$access_token,
   opt$refresh_token
 )
 
+# set up auth
+googlesheets4::gs4_auth(token = token)
+
 # We will load the latest gitHelpeR package root
 root_dir <- rprojroot::find_root(rprojroot::has_file("gitHelpeR.Rproj"))
 
+# load latest
 devtools::load_all(root_dir)
 
 # Run onjhudsl org and retrieve keywords and learning objectives
@@ -76,8 +80,6 @@ chapter_df <-
   )
 
 file.remove("git_token.txt")
-
-
 
 # Save to googlseheet
 googlesheets4::sheet_write(
