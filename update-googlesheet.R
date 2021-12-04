@@ -1,6 +1,55 @@
 # Update the jhu course library googlesheet
 # C. Savonen 2021
 
+auth <- googlesheets4::gs4_auth_configure()
+auth$cred$credentials
+
+############################## Set up Functions ################################
+authorize_from_secret <- function(access_token, refresh_token) {
+
+  client_id <- getOption("slides.client.id")
+  client_secret <- getOption("slides.client.secret")
+
+  credentials = list(
+    access_token = access_token,
+    expires_in = 3599L,
+    refresh_token = refresh_token,
+    scope = "https://www.googleapis.com/auth/presentations https://www.googleapis.com/auth/drive.readonly",
+    token_type = "Bearer")
+
+  app <- httr::oauth_app(appname = "googleslides",
+                         key = client_id,
+                         secret = client_secret)
+  endpoint <- httr::oauth_endpoints("google")
+
+  token <- httr::oauth2.0_token(endpoint = endpoint, app = app,
+                                scope = c("https://www.googleapis.com/auth/presentations",
+                                          "https://www.googleapis.com/auth/drive.readonly"),
+                                credentials = credentials)
+
+  out <- rgoogleslides::authorize(token = token)
+
+  return(out)
+}
+
+
+library(optparse)
+
+################################ Set up options ################################
+# Set up optparse options.
+option_list <- list(
+make_option(
+  opt_str = c("-r", "--refresh_token"), type = "character",
+  default = NULL, help = "Can be obtained from: token <- rgoogleslides::authorize(); token$credentials$refresh_token",
+  metavar = "character"
+),
+make_option(
+  opt_str = c("-a", "--access_token"), type = "character",
+  default = NULL, help = "Can be obtained from: token <- rgoogleslides::authorize(); token$credentials$access_token",
+  metavar = "character"
+)
+)
+
 # We will load the latest gitHelpeR package root
 root_dir <- rprojroot::find_root(rprojroot::has_file("gitHelpeR.Rproj"))
 
