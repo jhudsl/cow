@@ -10,7 +10,7 @@ authorize_from_secret <- function(access_token, refresh_token) {
     access_token = access_token,
     expires_in = 3599L,
     refresh_token = refresh_token,
-    scope = "https://www.googleapis.com/auth/sheets https://www.googleapis.com/auth/drive.readonly",
+    scope = "https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/userinfo.email openid",
     token_type = "Bearer"
   )
 
