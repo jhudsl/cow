@@ -9,7 +9,13 @@ options(
   gargle_oauth_email = "cansav09@gmail.com"
 )
 
-googlesheets4::gs4_auth(cache = ".secrets", email = "cansav09@gmail.com")
+token <- readr::read_rds("token.rds")
+
+googlesheets4::gs4_auth(
+  email = "cansav09@gmail.com",
+  scopes = "https://www.googleapis.com/auth/spreadsheets",
+  token = token
+)
 
 ################################ Set up options ################################
 # Set up optparse options.
