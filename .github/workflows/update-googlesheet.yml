@@ -28,11 +28,8 @@ jobs:
           GH_PAT: ${{ secrets.GH_PAT }}
         run: |
           echo ${{ secrets.GH_PAT }} > git_token.txt
-
-          git config user.email "cansav09@gmail.com"
-          git config user.name "cansavvy"
-
-          curl https://${GH_PAT}@raw.githubusercontent.com/cansavvy/secret-secrets/main/token.rds > token.rds
+          
+          curl https://${GH_PAT}@raw.githubusercontent.com/cansavvy/secret-secrets/main/googlesheets-secret.json > googlesheets-secret.json
 
       # Run main function
       - name: Run build update googlesheet
