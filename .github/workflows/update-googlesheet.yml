@@ -24,15 +24,15 @@ jobs:
 
       # Get auth tokens
       - name: Get token
+          env:
+            GH_PAT: ${{ secrets.GH_PAT }}
         run: |
-          sudo apt-get install subversion
-          
           echo ${{ secrets.GH_PAT }} > git_token.txt
 
           git config user.email "cansav09@gmail.com"
           git config user.name "cansavvy"
 
-          svn export https://${GH_PAT}@raw.githubusercontent.com/cansavvy/secret-secrets/main/token.rds > token.rds
+          curl https://${GH_PAT}@raw.githubusercontent.com/cansavvy/secret-secrets/main/token.rds > token.rds
 
       # Run main function
       - name: Run build update googlesheet
