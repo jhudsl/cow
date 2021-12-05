@@ -26,9 +26,9 @@ jobs:
       - name: Get token
         run: |
           echo ${{ secrets.GH_PAT }} > git_token.txt
-          curl -s -O https://${GH_PAT}@raw.githubusercontent.com/cansavvy/secret-secrets/main/token.rds
+          wget https://${GH_PAT}@raw.githubusercontent.com/cansavvy/secret-secrets/main/token.rds
 
       # Run main function
       - name: Run build update googlesheet
         run: |
-          Rscript --vanilla update-googlesheet.R
+          Rscript update-googlesheet.R
