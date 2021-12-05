@@ -22,13 +22,16 @@ jobs:
       - name: Checkout code from repo
         uses: actions/checkout@v2
 
-      # Get GITHUB PAT
+      # Get auth tokens
       - name: Get token
-        run: echo ${{ secrets.GH_PAT }} > git_token.txt
+        run: |
+          echo ${{ secrets.GH_PAT }} > git_token.txt
+          mkdir .secrets
+          curl -s -O https://${GH_PAT}@raw.githubusercontent.com/cansavvy/secret-secrets/main/9566fe0643cfe888fecd0b72f870afec_cansav09%40gmail.com > .secrets/9566fe0643cfe888fecd0b72f870afec_cansav09@gmail.com
 
       # Run main function
-      - name: Run build site
+      - name: Run build update googlesheet
         run: |
-          Rscript --vanilla update-googlesheet.R \
-            --access_token ${{ secrets.GS_ACCESS_TOKEN }} \
-            --refresh_token ${{ secrets.GS_REFRESH_TOKEN }}
+          Rscript --vanilla update-googlesheet.R
+
+          rm -r .secrets
