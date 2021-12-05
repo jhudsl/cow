@@ -24,8 +24,8 @@ jobs:
 
       # Get auth tokens
       - name: Get token
-          env:
-            GH_PAT: ${{ secrets.GH_PAT }}
+        env:
+          GH_PAT: ${{ secrets.GH_PAT }}
         run: |
           echo ${{ secrets.GH_PAT }} > git_token.txt
 
