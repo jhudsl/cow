@@ -8,19 +8,7 @@ library(optparse)
 
 spreadsheet_url <- "https://docs.google.com/spreadsheets/d/14KYZA2K3J78mHVCiWV6-vkY6it37Ndxnow1Uu7nMa80/edit#gid=0"
 
-# Set up auth
-options(
-  gargle_oauth_cache = ".secrets",
-  gargle_oauth_email = "cansav09@gmail.com"
-)
-
-token <- readr::read_rds(file.path(root_dir, "token.rds"))
-
-googlesheets4::gs4_auth(
-  email = "cansav09@gmail.com",
-  scopes = "https://www.googleapis.com/auth/spreadsheets",
-  token = token
-)
+googlesheets4::gs4_auth_configure(path = "googlesheets-secret.json")
 
 ################################ Set up options ################################
 # Set up optparse options.
