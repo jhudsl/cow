@@ -1,6 +1,9 @@
 # Update the jhu course library googlesheet
 # C. Savonen 2021
 
+# We will load the latest gitHelpeR package root
+root_dir <- rprojroot::find_root(rprojroot::has_file("gitHelpeR.Rproj"))
+
 library(optparse)
 
 spreadsheet_url <- "https://docs.google.com/spreadsheets/d/14KYZA2K3J78mHVCiWV6-vkY6it37Ndxnow1Uu7nMa80/edit#gid=0"
@@ -11,7 +14,7 @@ options(
   gargle_oauth_email = "cansav09@gmail.com"
 )
 
-token <- readr::read_rds("token.rds")
+token <- readr::read_rds(file.path(root_dir, "token.rds"))
 
 googlesheets4::gs4_auth(
   email = "cansav09@gmail.com",
@@ -32,9 +35,6 @@ option_list <- list(
 # Parse options
 opt <- parse_args(OptionParser(option_list = option_list))
 
-# We will load the latest gitHelpeR package root
-root_dir <- rprojroot::find_root(rprojroot::has_file("gitHelpeR.Rproj"))
-
 # load latest
 devtools::load_all(root_dir)
 
@@ -42,7 +42,7 @@ devtools::load_all(root_dir)
 chapter_df <-
   gitHelpeR::retrieve_org_chapters(
     org_name = "jhudsl",
-    git_pat = readLines("git_token.txt")[1],
+    git_pat = readLines(file.path(root_dir, "git_token.txt"))[1],
     output_file = "jhudsl_chapter_info.tsv",
     retrieve_learning_obj = TRUE,
     retrieve_keywords = TRUE,
