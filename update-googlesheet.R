@@ -13,7 +13,7 @@ if (interactive()){
     email = "cansav09@gmail.com",
     scopes = c("https://www.googleapis.com/auth/spreadsheets","https://www.googleapis.com/auth/drive"),
     cache = file.path(root_dir, ".secrets"),
-    path = file.path(root_dir, "googlesheets-secret.json"),
+    #path = file.path(root_dir, "googlesheets-secret.json"),
     use_oob = TRUE
   )
 }else{
@@ -22,7 +22,7 @@ if (interactive()){
     scopes = c("https://www.googleapis.com/auth/spreadsheets","https://www.googleapis.com/auth/drive"),
     cache = file.path(root_dir, ".secrets"),
     use_oob = TRUE,
-    path = file.path(root_dir, "googlesheets-secret.json"),
+    #path = file.path(root_dir, "googlesheets-secret.json"),
   )
 }
 
