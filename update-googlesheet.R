@@ -12,7 +12,6 @@ if (interactive()){
   gs4_auth(
     email = "cansav09@gmail.com",
     scopes = c("https://www.googleapis.com/auth/spreadsheets","https://www.googleapis.com/auth/drive"),
-    # Get new token if it doesn't exist
     cache = file.path(root_dir, ".secrets"),
     path = file.path(root_dir, "googlesheets-secret.json"),
     use_oob = TRUE
