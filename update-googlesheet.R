@@ -1,6 +1,26 @@
 # Update the jhu course library googlesheet
 # C. Savonen 2021
 
+library(googlesheets4)
+
+if (interactive()){
+  gs4_auth(
+    email = "cansav09@gmail.com",
+    path = NULL,
+    scopes = c("https://www.googleapis.com/auth/spreadsheets","https://www.googleapis.com/auth/drive"),
+    # Get new token if it doesn't exist
+    cache = ".secrets",
+    use_oob = FALSE,
+    token = NULL
+  )
+}else{
+  gs4_auth(
+    email = "cansav09@gmail.com",
+    scopes = c("https://www.googleapis.com/auth/spreadsheets","https://www.googleapis.com/auth/drive"),
+    cache = ".secrets"
+  )
+}
+
 # We will load the latest gitHelpeR package root
 root_dir <- rprojroot::find_root(rprojroot::has_file("gitHelpeR.Rproj"))
 

@@ -5,3 +5,4 @@ docs
 docker/git_token.txt
 .rstudio/
 .local/
+.secrets
