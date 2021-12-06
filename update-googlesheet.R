@@ -1,34 +1,35 @@
 # Update the jhu course library googlesheet
 # C. Savonen 2021
 
+# We will load the latest gitHelpeR package root
+root_dir <- rprojroot::find_root(rprojroot::has_file("gitHelpeR.Rproj"))
+
 library(googlesheets4)
+
+googlesheets4::gs4_deauth()
 
 if (interactive()){
   gs4_auth(
     email = "cansav09@gmail.com",
-    path = NULL,
     scopes = c("https://www.googleapis.com/auth/spreadsheets","https://www.googleapis.com/auth/drive"),
     # Get new token if it doesn't exist
-    cache = ".secrets",
-    use_oob = FALSE,
-    token = NULL
+    cache = file.path(root_dir, ".secrets"),
+    path = file.path(root_dir, "googlesheets-secret.json"),
+    use_oob = TRUE
   )
 }else{
   gs4_auth(
     email = "cansav09@gmail.com",
     scopes = c("https://www.googleapis.com/auth/spreadsheets","https://www.googleapis.com/auth/drive"),
-    cache = ".secrets"
+    cache = file.path(root_dir, ".secrets"),
+    use_oob = TRUE,
+    path = file.path(root_dir, "googlesheets-secret.json"),
   )
 }
-
-# We will load the latest gitHelpeR package root
-root_dir <- rprojroot::find_root(rprojroot::has_file("gitHelpeR.Rproj"))
 
 library(optparse)
 
 spreadsheet_url <- "https://docs.google.com/spreadsheets/d/14KYZA2K3J78mHVCiWV6-vkY6it37Ndxnow1Uu7nMa80/edit#gid=0"
-
-googlesheets4::gs4_auth_configure(path = "googlesheets-secret.json")
 
 ################################ Set up options ################################
 # Set up optparse options.
