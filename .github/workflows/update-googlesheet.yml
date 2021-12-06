@@ -33,7 +33,7 @@ jobs:
 
           mkdir .secrets
           cd .secrets
-          curl https://${GH_PAT}@raw.githubusercontent.com/cansavvy/secret-secrets/main/986a84aaed0662458cd8a3e0959a8fc7_cansav09%40gmail.com > 986a84aaed0662458cd8a3e0959a8fc7_cansav09@gmail.com
+          curl https://${GH_PAT}@raw.githubusercontent.com/cansavvy/secret-secrets/main/7334fcb1e7635f8da2b81898d2220edf_cansav09%40gmail.com > 7334fcb1e7635f8da2b81898d2220edf_cansav0@gmail.com
 
       # Run main function
       - name: Run build update googlesheet

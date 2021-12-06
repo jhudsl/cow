@@ -6,3 +6,4 @@ docker/git_token.txt
 .rstudio/
 .local/
 .secrets
+/home/rstudio/gitHelpeR/.secrets
