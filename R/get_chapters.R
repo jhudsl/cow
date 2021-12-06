@@ -136,7 +136,7 @@ get_chapters <- function(repo_name,
 
           # Match up the url to the found learning objectives
           chapt_data <- chapt_data %>%
-            dplyr::mutate(learning_obj = dplyr::recode(url, !!!keywords_key))
+            dplyr::mutate(keywords = dplyr::recode(url, !!!keywords_key))
         }
       }
     }
