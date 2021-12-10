@@ -1,18 +1,18 @@
-### gitHelpeR
+### :cow: Course Organizer and Wrangler - COW.
 
-gitHelper accesses GitHub API from R and performs some course management functions, including retrieving chapter names and learning objectives for courses hosted on GitHub repositories.
+`cow` accesses GitHub API from R and performs some course management functions, including retrieving chapter names and learning objectives for courses hosted on GitHub repositories.
 
-[Read the full documentation here](https://jhudatascience.org/gitHelpeR/docs/index.html).
+[Read the full documentation here](https://jhudatascience.org/cow/docs/index.html).
 
 ## Installation
 
-You can install `gitHelpeR` from GitHub with:
+You can install `cow` from GitHub with:
 
 ```
 if (!(installed.packages() %in% "remotes")){
   install.packages("remotes")
 }
-remotes::install_github("jhudsl/gitHelpeR")
+remotes::install_github("jhudsl/cow")
 ```
 
 For quick start up, or if you have installation problems, you can use the docker image:
@@ -41,25 +41,25 @@ If you don't supply a token this way, then private repositories (or those you do
 Check if a repository exists in GitHub:
 
 ```
-gitHelpeR::check_git_repo("jhudsl/DaSL_Course_Template_Bookdown")
+cow::check_git_repo("jhudsl/DaSL_Course_Template_Bookdown")
 ```
 
 Get all repository names for an organization:
 
 ```
-gitHelpeR::retrieve_org_repos(org_name = "jhudsl", output_file = "jhudsl_repos.tsv")
+cow::retrieve_org_repos(org_name = "jhudsl", output_file = "jhudsl_repos.tsv")
 ```
 
 Get bookdown chapters for a repository:
 
 ```
-gitHelpeR::get_chapters("jhudsl/Documentation_and_Usability")
+cow::get_chapters("jhudsl/Documentation_and_Usability")
 ```
 
 Get keywords for a html page at a url:
 
 ```
-keywords_df <- gitHelpeR::get_keywords(url)
+keywords_df <- cow::get_keywords(url)
 ```
 
 Get learning objectives for a bookdown chapter at a url:
@@ -70,5 +70,5 @@ keywords_df <- gitHelpeR::get_learning_obj(url)
 
 Get all bookdown chapters for a all repositories in an organization:
 ```
-gitHelpeR::retrieve_org_chapters(org_name = "jhudsl", output_file = "jhudsl_chapter_info.tsv")
+cow::retrieve_org_chapters(org_name = "jhudsl", output_file = "jhudsl_chapter_info.tsv")
 ```
