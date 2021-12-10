@@ -9,8 +9,7 @@ check_git_repo(
   git_pat = NULL,
   silent = TRUE,
   return_repo = FALSE,
-  verbose = TRUE,
-  no_creds = FALSE
+  verbose = TRUE
 )
 }
 \arguments{
@@ -26,8 +25,6 @@ command should be echoed back if it does fail.}
 should be saved to a file (if the repo exists)}
 
 \item{verbose}{TRUE/FALSE do you want more progress messages?}
-
-\item{no_creds}{mainly for development purposes, if TRUE, will not ask for credentials.}
 }
 \value{
 A TRUE/FALSE whether or not the repository exists. Optionally the

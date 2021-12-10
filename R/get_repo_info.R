@@ -11,7 +11,6 @@
 #' Authorization handled by \link[cow]{get_git_auth}
 #' @param verbose TRUE/FALSE do you want more progress messages?
 #' @param keep_json verbose TRUE/FALSE keep the json file locally?
-#' @param no_creds mainly for development purposes, if TRUE, will not ask for credentials.
 #'
 #' @return a data frame with the repository with the following columns:
 #' data_level, data_path, chapt_name, url, repository name
@@ -26,28 +25,21 @@
 #'
 #' @examples
 #'
-#' repo_info <- get_repo_info("jhudsl/Documentation_and_Usability", no_creds = TRUE)
+#' repo_info <- get_repo_info("jhudsl/Documentation_and_Usability")
 get_repo_info <- function(repo_name,
                           git_pat = NULL,
                           verbose = FALSE,
-                          keep_json = FALSE,
-                          no_creds = FALSE) {
+                          keep_json = FALSE) {
   repo_info <- NA
 
-  # For testing purposes, can turn off providing credentials
-  if(no_creds) {
-    auth_arg <- NULL
-    auth_arg$password <- NULL
-  } else {
-    # Build auth argument
-    auth_arg <- get_git_auth(git_pat = git_pat)
-  }
+  # Build auth argument
+  auth_arg <- get_git_auth(git_pat = git_pat)
+
   exists <- check_git_repo(
     repo_name = repo_name,
     git_pat = git_pat,
     verbose = FALSE,
-    silent = TRUE,
-    no_creds = no_creds
+    silent = TRUE
   )
 
   if (exists) {
