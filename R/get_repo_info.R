@@ -8,7 +8,7 @@
 #' @param git_pat If private repositories are to be retrieved, a github personal
 #' access token needs to be supplied. If none is supplied, then this will attempt to
 #' grab from a git pat set in the environment with usethis::create_github_token().
-#' Authorization handled by \link[gitHelpeR]{get_git_auth}
+#' Authorization handled by \link[cow]{get_git_auth}
 #' @param verbose TRUE/FALSE do you want more progress messages?
 #' @param keep_json verbose TRUE/FALSE keep the json file locally?
 #' @param no_creds mainly for development purposes, if TRUE, will not ask for credentials.

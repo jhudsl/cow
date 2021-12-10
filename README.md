@@ -22,12 +22,12 @@ docker run -it -v $PWD:/home/rstudio -e PASSWORD=password -p 8787:8787 jhudsl/co
 ```
 Then in the browser of your choice, navigate to localhost:8787 and install from GitHub if you want the latest version.
 ```
-remotes::install_github("jhudsl/gitHelpeR")
+remotes::install_github("jhudsl/cow")
 ```
 
 ## Set up with GitHub token
 
-If you want `gitHelpeR`, to have full capabilities you will need to give give your local RStudio a GitHub token.
+If you want `cow`, to have full capabilities you will need to give give your local RStudio a GitHub token.
 To do this, run this command:
 
 ```
@@ -65,7 +65,7 @@ keywords_df <- cow::get_keywords(url)
 Get learning objectives for a bookdown chapter at a url:
 
 ```
-keywords_df <- gitHelpeR::get_learning_obj(url)
+keywords_df <- cow::get_learning_obj(url)
 ```
 
 Get all bookdown chapters for a all repositories in an organization:

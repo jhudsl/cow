@@ -1,8 +1,8 @@
 # Update the jhu course library googlesheet
 # C. Savonen 2021
 
-# We will load the latest gitHelpeR package root
-root_dir <- rprojroot::find_root(rprojroot::has_file("gitHelpeR.Rproj"))
+# We will load the latest cow package root
+root_dir <- rprojroot::find_root(rprojroot::has_file("cow.Rproj"))
 
 library(googlesheets4)
 
@@ -48,7 +48,7 @@ devtools::load_all(root_dir)
 
 # Run onjhudsl org and retrieve keywords and learning objectives
 chapter_df <-
-  gitHelpeR::retrieve_org_chapters(
+  cow::retrieve_org_chapters(
     org_name = "jhudsl",
     git_pat = readLines(file.path(root_dir, "git_token.txt"))[1],
     output_file = "jhudsl_chapter_info.tsv",
