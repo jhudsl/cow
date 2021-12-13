@@ -14,6 +14,8 @@
 #'
 get_git_auth <- function(git_pat = NULL, git_username = "PersonalAccessToken") {
 
+  auth_arg <- NULL
+  
   # If either username or git pat is not provided, try to get credentials with gitcreds
   if (is.null(git_pat) || is.null(git_username)) {
 

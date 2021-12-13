@@ -1,4 +1,4 @@
-^gitHelpeR\.Rproj$
+^cow\.Rproj$
 ^\.Rproj\.user$
 ^.github
 ^update-googlesheet.R$
@@ -13,4 +13,4 @@
 ^.rstudio$
 ^english-ewt-ud-2.5-191206.udpipe$
 ^\.secrets$
-^/home/rstudio/gitHelpeR/\.secrets$
+^/home/rstudio/cow/\.secrets$

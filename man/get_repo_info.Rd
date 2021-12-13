@@ -4,13 +4,7 @@
 \alias{get_repo_info}
 \title{Retrieve information about a github repo}
 \usage{
-get_repo_info(
-  repo_name,
-  git_pat = NULL,
-  verbose = FALSE,
-  keep_json = FALSE,
-  no_creds = FALSE
-)
+get_repo_info(repo_name, git_pat = NULL, verbose = FALSE, keep_json = FALSE)
 }
 \arguments{
 \item{repo_name}{The full name of the repo to get bookdown chapters from.
@@ -19,13 +13,11 @@ e.g. "jhudsl/DaSL_Course_Template_Bookdown"}
 \item{git_pat}{If private repositories are to be retrieved, a github personal
 access token needs to be supplied. If none is supplied, then this will attempt to
 grab from a git pat set in the environment with usethis::create_github_token().
-Authorization handled by \link[gitHelpeR]{get_git_auth}}
+Authorization handled by \link[cow]{get_git_auth}}
 
 \item{verbose}{TRUE/FALSE do you want more progress messages?}
 
 \item{keep_json}{verbose TRUE/FALSE keep the json file locally?}
-
-\item{no_creds}{mainly for development purposes, if TRUE, will not ask for credentials.}
 }
 \value{
 a data frame with the repository with the following columns:
@@ -37,5 +29,5 @@ GitHub API and read it into R.
 }
 \examples{
 
-repo_info <- get_repo_info("jhudsl/Documentation_and_Usability", no_creds = TRUE)
+repo_info <- get_repo_info("jhudsl/Documentation_and_Usability")
 }
