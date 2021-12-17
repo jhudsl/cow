@@ -33,6 +33,7 @@ get_release_info <- function(repo_name,
   auth_arg <- get_git_auth(git_pat = git_pat)
   
   git_pat <- auth_arg$password
+  
   if (is.null(git_pat)) {
     message("No credentials being used, only public repositories will be successful")
   }

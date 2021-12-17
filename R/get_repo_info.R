@@ -35,7 +35,9 @@ get_repo_info <- function(repo_name,
   # Try to get credentials other way 
   auth_arg <- get_git_auth(git_pat = git_pat)
     
-  if (is.null(auth_arg$password)) {
+  git_pat <- auth_arg$password
+  
+  if (is.null(git_pat)) {
     message("No credentials being used, only public repositories will be successful")
   }
 
