@@ -28,14 +28,12 @@ retrieve_org_repos <- function(org_name = NULL,
                                git_pat = NULL,
                                verbose = TRUE) {
   
+  # Try to get credentials other way 
+  auth_arg <- get_git_auth(git_pat = git_pat)
+  
+  git_pat <- auth_arg$password
   if (is.null(git_pat)) {
-    # Try to get credentials other way 
-    auth_arg <- get_git_auth(git_pat = git_pat)
-    
-    git_pat <- auth_arg$password
-    if (is.null(git_pat)) {
-      message("No credentials being used, only public repositories will be successful")
-    }
+    message("No credentials being used, only public repositories will be successful")
   }
   
   # Declare URL

@@ -32,14 +32,12 @@ get_repo_info <- function(repo_name,
                           keep_json = FALSE) {
   repo_info <- NA
   
-  if (is.null(git_pat)) {
-    # Try to get credentials other way 
-    auth_arg <- get_git_auth(git_pat = git_pat)
+  # Try to get credentials other way 
+  auth_arg <- get_git_auth(git_pat = git_pat)
     
-    git_pat <- auth_arg$password
-    if (is.null(git_pat)) {
-      message("No credentials being used, only public repositories will be successful")
-    }
+  git_pat <- auth_arg$password
+  if (is.null(git_pat)) {
+    message("No credentials being used, only public repositories will be successful")
   }
 
   exists <- check_git_repo(

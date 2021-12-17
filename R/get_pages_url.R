@@ -28,11 +28,12 @@ get_pages_url <- function(repo_name,
                           keep_json = FALSE) {
   page_url <- NA
 
+  # Try to get credentials other way 
+  auth_arg <- get_git_auth(git_pat = git_pat)
+  
+  git_pat <- auth_arg$password
   if (is.null(git_pat)) {
-    # Try to get credentials other way 
-    auth_arg <- get_git_auth(git_pat = git_pat)
-    
-    git_pat <- auth_arg$password
+    message("No credentials being used, only public repositories will be successful")
   }
 
   # We can only retrieve pages if we have the credentials
