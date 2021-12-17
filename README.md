@@ -72,3 +72,11 @@ Get all bookdown chapters for a all repositories in an organization:
 ```
 cow::retrieve_org_chapters(org_name = "jhudsl", output_file = "jhudsl_chapter_info.tsv")
 ```
+
+Borrow a Rmd or md chapter between courses. 
+```
+cow::borrow_chapter(repo_name = "jhudsl/OTTR_Template", "02-chapter-of-course.Rmd")
+```
+
+
+```
