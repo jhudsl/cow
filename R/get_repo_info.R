@@ -4,7 +4,7 @@
 #' GitHub API and read it into R.
 #'
 #' @param repo_name The full name of the repo to get bookdown chapters from.
-#' e.g. "jhudsl/DaSL_Course_Template_Bookdown"
+#' e.g. "jhudsl/OTTR_Template"
 #' @param git_pat If private repositories are to be retrieved, a github personal
 #' access token needs to be supplied. If none is supplied, then this will attempt to
 #' grab from a git pat set in the environment with usethis::create_github_token().

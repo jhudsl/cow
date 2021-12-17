@@ -41,7 +41,7 @@ If you don't supply a token this way, then private repositories (or those you do
 Check if a repository exists in GitHub:
 
 ```
-cow::check_git_repo("jhudsl/DaSL_Course_Template_Bookdown")
+cow::check_git_repo("jhudsl/OTTR_Template")
 ```
 
 Get all repository names for an organization:

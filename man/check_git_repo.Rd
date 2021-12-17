@@ -13,7 +13,7 @@ check_git_repo(
 )
 }
 \arguments{
-\item{repo_name}{the name of the repository, e.g. jhudsl/DaSL_Course_Template_Bookdown}
+\item{repo_name}{the name of the repository, e.g. jhudsl/OTTR_Template}
 
 \item{git_pat}{A personal access token from GitHub. Only necessary if the
 repository being checked is a private repository.}
@@ -35,5 +35,5 @@ Given a repository name, check with git ls-remote whether the repository exists 
 }
 \examples{
 
-check_git_repo("jhudsl/DaSL_Course_Template_Bookdown")
+check_git_repo("jhudsl/OTTR_Template")
 }

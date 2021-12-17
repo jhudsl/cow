@@ -2,7 +2,7 @@
 #'
 #' Given a repository name, check with git ls-remote whether the repository exists and return a TRUE/FALSE
 #'
-#' @param repo_name the name of the repository, e.g. jhudsl/DaSL_Course_Template_Bookdown
+#' @param repo_name the name of the repository, e.g. jhudsl/OTTR_Template
 #' @param git_pat A personal access token from GitHub. Only necessary if the
 #' repository being checked is a private repository.
 #' @param silent TRUE/FALSE of whether the warning from the git ls-remote
@@ -18,7 +18,7 @@
 #'
 #' @examples
 #'
-#' check_git_repo("jhudsl/DaSL_Course_Template_Bookdown")
+#' check_git_repo("jhudsl/OTTR_Template")
 check_git_repo <- function(repo_name,
                            git_pat = NULL,
                            silent = TRUE,
