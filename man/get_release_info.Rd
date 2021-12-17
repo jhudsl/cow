@@ -26,8 +26,8 @@ Given an repository on GitHub, retrieve the information about it from the
 GitHub API and read it into R.
 }
 \examples{
-\dontrun{}
+\dontrun{
 
 release_info <- get_release_info("jhudsl/DaSL_Course_Template_Bookdown")
-
+}
 }

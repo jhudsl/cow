@@ -19,10 +19,10 @@
 #'
 #' @export
 #'
-#' @examples \dontrun{}
+#' @examples \dontrun{
 #'
 #' release_info <- get_release_info("jhudsl/DaSL_Course_Template_Bookdown")
-#' 
+#' }
 get_release_info <- function(repo_name,
                              git_pat = NULL,
                              verbose = TRUE) {

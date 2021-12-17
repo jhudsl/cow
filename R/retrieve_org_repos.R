@@ -23,6 +23,7 @@
 #'   org_name = "jhudsl",
 #'   output_file = "jhudsl_repos.tsv"
 #' )
+#' 
 retrieve_org_repos <- function(org_name = NULL,
                                output_file = "org_repos.tsv",
                                git_pat = NULL,

@@ -21,9 +21,11 @@ information for the Github page if it exists.
 Currently only public repositories are supported.
 }
 \examples{
+\dontrun{
 
 # Declare chapter URL
 url <- "https://jhudatascience.org/Documentation_and_Usability/other-helpful-features.html"
 
 get_learning_obj(url)
+}
 }
