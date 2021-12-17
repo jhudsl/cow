@@ -29,13 +29,20 @@ get_release_info <- function(repo_name,
                              keep_json = FALSE) {
   releases <- NA
 
-  # Build auth argument
-  auth_arg <- get_git_auth(git_pat = git_pat)
-
+  if (is.null(git_pat)) {
+    # Try to get credentials other way 
+    auth_arg <- get_git_auth(git_pat = git_pat)
+    
+    git_pat <- auth_arg$password
+    if (is.null(git_pat)) {
+      message("No credentials being used, only public repositories will be successful")
+    }
+  }
+  
   exists <- check_git_repo(
     repo_name = repo_name,
     git_pat = git_pat,
-    verbose = verbose
+    verbose = FALSE
   )
 
   if (exists) {
@@ -53,7 +60,7 @@ get_release_info <- function(repo_name,
     # Github api get
     response <- httr::GET(
       url,
-      httr::add_headers(Authorization = paste0("token ", auth_arg$password)),
+      httr::add_headers(Authorization = paste0("token ", git_pat)),
       httr::accept_json()
     )
 

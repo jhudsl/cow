@@ -31,15 +31,14 @@ check_git_repo <- function(repo_name,
   # If silent = TRUE don't print out the warning message from the 'try'
   report <- ifelse(silent, suppressWarnings, message)
 
-  if (is.null(git_pat)) {
-    git_pat <- gitcreds::gitcreds_get()$password
     if (is.null(git_pat)) {
-      warning("No github credentials found or provided.
-              Only public repositories will be retrieved. Set GitHub token using
-              usethis::create_github_token()
-              if you would like private repos to be included.")
+      # Try to get credentials othe way 
+      auth_arg <- get_git_auth(git_pat = git_pat)
+      
+      if (is.null(auth_arg$password)) {
+        message("No credentials being used, only public repositories will be successful")
+      }
     }
-  }
 
   if (!is.null(git_pat)) {
     # If git_pat is supplied, use it

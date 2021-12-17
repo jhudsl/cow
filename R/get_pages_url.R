@@ -28,15 +28,19 @@ get_pages_url <- function(repo_name,
                           keep_json = FALSE) {
   page_url <- NA
 
-  # Build auth argument
-  auth_arg <- get_git_auth(git_pat = git_pat)
+  if (is.null(git_pat)) {
+    # Try to get credentials other way 
+    auth_arg <- get_git_auth(git_pat = git_pat)
+    
+    git_pat <- auth_arg$password
+  }
 
   # We can only retrieve pages if we have the credentials
-  if (!is.null(auth_arg$password)) {
+  if (!is.null(git_pat)) {
     exists <- check_git_repo(
       repo_name = repo_name,
       git_pat = git_pat,
-      verbose = verbose
+      verbose = FALSE
     )
 
     if (exists) {

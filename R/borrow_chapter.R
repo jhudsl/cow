@@ -40,9 +40,6 @@ borrow_chapter <- function(
   
   repo_info <- NA
   
-  # Build auth argument
-  auth_arg <- get_git_auth(git_pat = git_pat)
-  
   exists <- check_git_repo(
     repo_name = repo_name,
     git_pat = git_pat,
