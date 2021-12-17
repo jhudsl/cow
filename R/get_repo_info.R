@@ -10,7 +10,6 @@
 #' grab from a git pat set in the environment with usethis::create_github_token().
 #' Authorization handled by \link[cow]{get_git_auth}
 #' @param verbose TRUE/FALSE do you want more progress messages?
-#' @param keep_json verbose TRUE/FALSE keep the json file locally?
 #'
 #' @return a data frame with the repository with the following columns:
 #' data_level, data_path, chapt_name, url, repository name
@@ -28,12 +27,8 @@
 #' repo_info <- get_repo_info("jhudsl/Documentation_and_Usability")
 get_repo_info <- function(repo_name,
                           git_pat = NULL,
-                          verbose = FALSE,
-                          keep_json = FALSE) {
+                          verbose = FALSE) {
   repo_info <- NA
-
-  # Build auth argument
-  auth_arg <- get_git_auth(git_pat = git_pat)
 
   exists <- check_git_repo(
     repo_name = repo_name,
@@ -46,7 +41,12 @@ get_repo_info <- function(repo_name,
     # Declare URL
     url <- paste0("https://api.github.com/repos/", repo_name)
 
-    if (is.null(auth_arg$password)){
+    # Try to get credentials other way
+    auth_arg <- get_git_auth(git_pat = git_pat)
+    
+    git_pat <- try(auth_arg$password, silent = TRUE)
+    
+    if (grepl("Error", git_pat[1])) {
       # Github api get without authorization
       response <- httr::GET(
         url,
@@ -56,7 +56,7 @@ get_repo_info <- function(repo_name,
       # Github api get
       response <- httr::GET(
         url,
-        httr::add_headers(Authorization = paste0("token ", auth_arg$password)),
+        httr::add_headers(Authorization = paste0("token ", git_pat)),
         httr::accept_json()
       )
     }

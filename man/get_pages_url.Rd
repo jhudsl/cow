@@ -27,6 +27,11 @@ data_level, data_path, chapt_name, url, repository name
 Given an repository on GitHub, retrieve the pages URL for it.
 }
 \examples{
+\dontrun{
 
-pages_url <- get_pages_url("jhudsl/DaSL_Course_Template_Bookdown")
+usethis::create_github_token()
+
+get_chapters("jhudsl/Documentation_and_Usability")
+
+}
 }

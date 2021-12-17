@@ -24,24 +24,19 @@ check_git_repo <- function(repo_name,
                            silent = TRUE,
                            return_repo = FALSE,
                            verbose = TRUE) {
-
   if (verbose) {
     message(paste("Checking for remote git repository:", repo_name))
   }
   # If silent = TRUE don't print out the warning message from the 'try'
   report <- ifelse(silent, suppressWarnings, message)
 
-  if (is.null(git_pat)) {
-    git_pat <- gitcreds::gitcreds_get()$password
-    if (is.null(git_pat)) {
-      warning("No github credentials found or provided.
-              Only public repositories will be retrieved. Set GitHub token using
-              usethis::create_github_token()
-              if you would like private repos to be included.")
-    }
-  }
+  # Try to get credentials
+  auth_arg <- get_git_auth(git_pat = git_pat, quiet = !verbose)
 
-  if (!is.null(git_pat)) {
+  git_pat <- try(auth_arg$password, silent = TRUE)
+
+  # Run git ls-remote
+  if (!grepl("Error", git_pat[1])) {
     # If git_pat is supplied, use it
     test_repo <- report(
       try(system(paste0("git ls-remote https://", git_pat, "@github.com/", repo_name),
@@ -49,13 +44,11 @@ check_git_repo <- function(repo_name,
       ))
     )
   } else {
-
     # Try to git ls-remote the repo_name given
-    test_repo <- report(
-      try(system(paste0("git ls-remote https://github.com/", repo_name),
-        intern = TRUE, ignore.stderr = TRUE
-      ))
-    )
+    test_repo <- report
+    try(system(paste0("git ls-remote https://github.com/", repo_name),
+      intern = TRUE, ignore.stderr = TRUE
+    ))
   }
   # If 128 is returned as a status attribute it means it failed
   exists <- ifelse(is.null(attr(test_repo, "status")), TRUE, FALSE)

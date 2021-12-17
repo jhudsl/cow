@@ -23,17 +23,22 @@
 #'   org_name = "jhudsl",
 #'   output_file = "jhudsl_repos.tsv"
 #' )
+#' 
 retrieve_org_repos <- function(org_name = NULL,
                                output_file = "org_repos.tsv",
                                git_pat = NULL,
                                verbose = TRUE) {
-  # Build auth argument
-  auth_arg <- get_git_auth(git_pat = git_pat)
+
+  # Try to get credentials other way
+  auth_arg <- get_git_auth(git_pat = git_pat, quiet = TRUE)
+
+  git_pat <- try(auth_arg$password, silent = TRUE)
 
   # Declare URL
   url <- paste0("https://api.github.com/orgs/", org_name, "/repos?per_page=1000000")
 
-  if (is.null(auth_arg$password)){
+  if (grepl("Error", git_pat[1])) {
+    
     # Github api get without authorization
     response <- httr::GET(
       url,
@@ -43,7 +48,7 @@ retrieve_org_repos <- function(org_name = NULL,
     # Github api get
     response <- httr::GET(
       url,
-      httr::add_headers(Authorization = paste0("token ", auth_arg$password)),
+      httr::add_headers(Authorization = paste0("token ", git_pat)),
       httr::accept_json()
     )
   }

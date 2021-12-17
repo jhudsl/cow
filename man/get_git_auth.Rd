@@ -4,7 +4,11 @@
 \alias{get_git_auth}
 \title{Handle GitHub PAT authorization}
 \usage{
-get_git_auth(git_pat = NULL, git_username = "PersonalAccessToken")
+get_git_auth(
+  git_pat = NULL,
+  git_username = "PersonalAccessToken",
+  quiet = FALSE
+)
 }
 \arguments{
 \item{git_pat}{If private repositories are to be retrieved, a github personal
@@ -12,6 +16,8 @@ access token needs to be supplied. If none is supplied, then this will attempt t
 grab from a git pat set in the environment with usethis::create_github_token().}
 
 \item{git_username}{Optional, can include username for credentials.}
+
+\item{quiet}{Use TRUE if you don't want the warning about no GitHub credentials.}
 }
 \value{
 Authorization argument to supply to curl OR a blank string if no

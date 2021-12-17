@@ -17,12 +17,13 @@
 #'
 #' @export
 #'
-#' @examples
+#' @examples \dontrun{
 #'
 #' # Declare chapter URL
 #' url <- "https://jhudatascience.org/Documentation_and_Usability/other-helpful-features.html"
 #'
 #' get_learning_obj(url)
+#' }
 get_learning_obj <- function(url, prompt = "This chapter will demonstrate how to\\:") {
 
   # Try chapter url

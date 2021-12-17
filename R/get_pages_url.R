@@ -19,24 +19,34 @@
 #'
 #' @export
 #'
-#' @examples
+#' @examples \dontrun{
 #'
-#' pages_url <- get_pages_url("jhudsl/DaSL_Course_Template_Bookdown")
+#' usethis::create_github_token()
+#' 
+#' get_chapters("jhudsl/Documentation_and_Usability")
+#' 
+#' }
 get_pages_url <- function(repo_name,
                           git_pat = NULL,
                           verbose = FALSE,
                           keep_json = FALSE) {
   page_url <- NA
 
-  # Build auth argument
-  auth_arg <- get_git_auth(git_pat = git_pat)
+  # Try to get credentials other way
+  auth_arg <- get_git_auth(git_pat = git_pat, quiet = !verbose)
+
+  git_pat <- try(auth_arg$password, silent = TRUE)
+
+  if (grepl("Error", git_pat[1])) {
+    warning("Cannot retrieve page info without GitHub credentials. Passing an NA.")
+  }
 
   # We can only retrieve pages if we have the credentials
-  if (!is.null(auth_arg$password)) {
+  if (!grepl("Error", git_pat[1])) {
     exists <- check_git_repo(
       repo_name = repo_name,
       git_pat = git_pat,
-      verbose = verbose
+      verbose = FALSE
     )
 
     if (exists) {
@@ -67,8 +77,6 @@ get_pages_url <- function(repo_name,
         page_url <- page_info$html_url
       }
     }
-  } else {
-    warning("Cannot retrieve page info without GitHub credentials. Passing an NA.")
   }
   return(page_url)
 }

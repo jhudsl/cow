@@ -4,7 +4,7 @@
 \alias{get_repo_info}
 \title{Retrieve information about a github repo}
 \usage{
-get_repo_info(repo_name, git_pat = NULL, verbose = FALSE, keep_json = FALSE)
+get_repo_info(repo_name, git_pat = NULL, verbose = FALSE)
 }
 \arguments{
 \item{repo_name}{The full name of the repo to get bookdown chapters from.
@@ -16,8 +16,6 @@ grab from a git pat set in the environment with usethis::create_github_token().
 Authorization handled by \link[cow]{get_git_auth}}
 
 \item{verbose}{TRUE/FALSE do you want more progress messages?}
-
-\item{keep_json}{verbose TRUE/FALSE keep the json file locally?}
 }
 \value{
 a data frame with the repository with the following columns:
