@@ -5,7 +5,8 @@
 #' you would like to include in the current document. e.g "docs/intro.md" or "intro.md"
 #' @param repo_name A character vector indicating the repo name of where you are
 #'  borrowing from. e.g. "jhudsl/DaSL_Course_Template_Bookdown/". 
-#'  For a Wiki of a repo, use "wiki/jhudsl/DaSL_Course_Template_Bookdown/"
+#'  For a Wiki of a repo, use "wiki/jhudsl/DaSL_Course_Template_Bookdown/" 
+#'  If nothing is provided, will look for local file.
 #' @param branch Default is to pull from main branch, but need to declare if other branch is needed.
 #' @param git_pat A personal access token from GitHub. Only necessary if the
 #' repository being checked is a private repository.
@@ -38,32 +39,38 @@ borrow_chapter <- function(
   base_url = 'https://raw.githubusercontent.com', 
   dest_dir = file.path("resources", "other_chapters")) {
   
-  repo_info <- NA
-  
-  exists <- check_git_repo(
-    repo_name = repo_name,
-    git_pat = git_pat,
-    verbose = FALSE,
-    silent = TRUE
-  )
-  
+
   # Declare file names
   doc_path <- file.path(doc_path)
   doc_name <- basename(doc_path)
   
-  # Create folder if it doesn't exist
-  if (!dir.exists(dest_dir)) {
-    dir.create(dest_dir, recursive = TRUE)
+  if (is.null(repo_name)) {
+    
+    exists <- check_git_repo(
+      repo_name = repo_name,
+      git_pat = git_pat,
+      verbose = FALSE,
+      silent = TRUE
+    )
+  
+    # Create folder if it doesn't exist
+    if (!dir.exists(dest_dir)) {
+      dir.create(dest_dir, recursive = TRUE)
+    }
+  
+    dest_file <- file.path(dest_dir, doc_name)
+  
+    full_url <- file.path(base_url, repo_name, branch, doc_path)
+    
+    # Progress message
+    message(full_url)
+    
+    # Download it 
+    download.file(full_url, destfile = dest_file)
+  } else {
+    # If the file is local we don't need to download anything
+    dest_file <- doc_path
   }
-  
-  dest_file <- file.path(dest_dir, doc_name)
-  
-  full_url <- file.path(base_url, repo_name, branch, doc_path)
-  
-  message(full_url)
-  
-  # Download it 
-  download.file(full_url, destfile = dest_file)
   
   # Knit it in
   result <- knitr::knit_child(dest_file, quiet = TRUE)

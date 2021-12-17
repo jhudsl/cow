@@ -20,7 +20,8 @@ you would like to include in the current document. e.g "docs/intro.md" or "intro
 
 \item{repo_name}{A character vector indicating the repo name of where you are
 borrowing from. e.g. "jhudsl/DaSL_Course_Template_Bookdown/".
-For a Wiki of a repo, use "wiki/jhudsl/DaSL_Course_Template_Bookdown/"}
+For a Wiki of a repo, use "wiki/jhudsl/DaSL_Course_Template_Bookdown/"
+If nothing is provided, will look for local file.}
 
 \item{branch}{Default is to pull from main branch, but need to declare if other branch is needed.}
 
