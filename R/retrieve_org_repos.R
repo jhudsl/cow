@@ -29,7 +29,7 @@ retrieve_org_repos <- function(org_name = NULL,
                                verbose = TRUE) {
 
   # Try to get credentials other way
-  auth_arg <- get_git_auth(git_pat = git_pat)
+  auth_arg <- get_git_auth(git_pat = git_pat, quiet = TRUE)
 
   git_pat <- try(auth_arg$password, silent = TRUE)
 
@@ -47,7 +47,7 @@ retrieve_org_repos <- function(org_name = NULL,
     # Github api get
     response <- httr::GET(
       url,
-      httr::add_headers(Authorization = paste0("token ", auth_arg$password)),
+      httr::add_headers(Authorization = paste0("token ", git_pat)),
       httr::accept_json()
     )
   }

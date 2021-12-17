@@ -30,8 +30,8 @@ check_git_repo <- function(repo_name,
   # If silent = TRUE don't print out the warning message from the 'try'
   report <- ifelse(silent, suppressWarnings, message)
 
-  # Try to get credentials othe way
-  auth_arg <- get_git_auth(git_pat = git_pat)
+  # Try to get credentials
+  auth_arg <- get_git_auth(git_pat = git_pat, quiet = !verbose)
 
   git_pat <- try(auth_arg$password, silent = TRUE)
 

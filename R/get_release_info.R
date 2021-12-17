@@ -30,7 +30,7 @@ get_release_info <- function(repo_name,
   releases <- NA
 
   # Try to get credentials other way
-  auth_arg <- get_git_auth(git_pat = git_pat)
+  auth_arg <- get_git_auth(git_pat = git_pat, quiet = TRUE)
 
   git_pat <- try(auth_arg$password, silent = TRUE)
 

@@ -6,13 +6,14 @@
 #' access token needs to be supplied. If none is supplied, then this will attempt to
 #' grab from a git pat set in the environment with usethis::create_github_token().
 #' @param git_username Optional, can include username for credentials.
-#'
+#' @param quiet Use TRUE if you don't want the warning about no GitHub credentials.
+#' 
 #' @return Authorization argument to supply to curl OR a blank string if no
 #' authorization is found or supplied.
 #'
 #' @export
 #'
-get_git_auth <- function(git_pat = NULL, git_username = "PersonalAccessToken") {
+get_git_auth <- function(git_pat = NULL, git_username = "PersonalAccessToken", quiet = FALSE) {
   auth_arg <- NULL
 
   # If git pat is not provided, try to get credentials with gitcreds
@@ -26,7 +27,7 @@ get_git_auth <- function(git_pat = NULL, git_username = "PersonalAccessToken") {
       # Only if we're running this interactively
       if (interactive()) {
         # Set credentials if null
-        auth_arg <- gitcreds::gitcreds_set()
+        #auth_arg <- gitcreds::gitcreds_set()
       } else {
         message("Could not find git credentials, please set by running usethis::create_github_token(),
               or directly providing a personal access token using the git_pat argument")
@@ -52,7 +53,9 @@ get_git_auth <- function(git_pat = NULL, git_username = "PersonalAccessToken") {
   git_pat <- try(auth_arg$password, silent = TRUE)
 
   if (grepl("Error", git_pat[1])) {
-    message("No github credentials found or provided; only public repositories will be successful")
+    if (!quiet) {
+      message("No github credentials found or provided; only public repositories will be successful.")
+    }
   }
 
   return(auth_arg)

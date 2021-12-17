@@ -30,14 +30,9 @@ get_repo_info <- function(repo_name,
                           verbose = FALSE) {
   repo_info <- NA
 
-  # Try to get credentials other way
-  auth_arg <- get_git_auth(git_pat = git_pat)
-
-  git_pat <- try(auth_arg$password, silent = TRUE)
-
   exists <- check_git_repo(
     repo_name = repo_name,
-    git_pat = auth_arg$password,
+    git_pat = git_pat,
     verbose = FALSE,
     silent = TRUE
   )
@@ -46,7 +41,12 @@ get_repo_info <- function(repo_name,
     # Declare URL
     url <- paste0("https://api.github.com/repos/", repo_name)
 
-    if (is.null(auth_arg$password)) {
+    # Try to get credentials other way
+    auth_arg <- get_git_auth(git_pat = git_pat)
+    
+    git_pat <- try(auth_arg$password, silent = TRUE)
+    
+    if (grepl("Error", git_pat[1])) {
       # Github api get without authorization
       response <- httr::GET(
         url,
@@ -56,7 +56,7 @@ get_repo_info <- function(repo_name,
       # Github api get
       response <- httr::GET(
         url,
-        httr::add_headers(Authorization = paste0("token ", auth_arg$password)),
+        httr::add_headers(Authorization = paste0("token ", git_pat)),
         httr::accept_json()
       )
     }

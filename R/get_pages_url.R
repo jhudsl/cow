@@ -29,7 +29,7 @@ get_pages_url <- function(repo_name,
   page_url <- NA
 
   # Try to get credentials other way
-  auth_arg <- get_git_auth(git_pat = git_pat)
+  auth_arg <- get_git_auth(git_pat = git_pat, quiet = !verbose)
 
   git_pat <- try(auth_arg$password, silent = TRUE)
 
