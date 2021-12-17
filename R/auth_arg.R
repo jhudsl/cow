@@ -36,9 +36,8 @@ get_git_auth <- function(git_pat = NULL, git_username = "PersonalAccessToken") {
     git_pat <- auth_arg$password
 
     if (is.null(git_pat)) {
-      warning("No github credentials found or provided.
-              Only public repositories will be retrieved. Set GitHub token using
-              usethis::create_github_token() if you would like private repos to be included.")
+      message("No github credentials found or provided.
+              Only public repositories will be retrieved.")
     }
   }
   if (!is.null(git_pat)) {
