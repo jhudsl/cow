@@ -7,14 +7,22 @@
 borrow_chapter(
   doc_path,
   repo_name = NULL,
+  branch = "main",
   git_pat = NULL,
-  base_url = "https://raw.githubusercontent.com/",
+  base_url = "https://raw.githubusercontent.com",
   dest_dir = file.path("resources", "other_chapters")
 )
 }
 \arguments{
+\item{doc_path}{A file path of markdown or R Markdown
+document of the chapter in the repository you are retrieving it from that
+you would like to include in the current document. e.g "docs/intro.md" or "intro.md"}
+
 \item{repo_name}{A character vector indicating the repo name of where you are
-borrowing from. e.g. "jhudsl/DaSL_Course_Template_Bookdown/"}
+borrowing from. e.g. "jhudsl/DaSL_Course_Template_Bookdown/".
+For a Wiki of a repo, use "wiki/jhudsl/DaSL_Course_Template_Bookdown/"}
+
+\item{branch}{Default is to pull from main branch, but need to declare if other branch is needed.}
 
 \item{git_pat}{A personal access token from GitHub. Only necessary if the
 repository being checked is a private repository.}
@@ -23,10 +31,6 @@ repository being checked is a private repository.}
 
 \item{dest_dir}{A file path where the file should be stored upon arrival to
 the current repository.}
-
-\item{doc_name}{A file path of markdown or R Markdown
-document of the chapter in the repository you are retrieving it from that
-you would like to include in the current document. e.g "docs/intro.md" or "intro.md"}
 }
 \value{
 An Rmarkdown or markdown is knitted into the document from another repository
@@ -35,13 +39,15 @@ An Rmarkdown or markdown is knitted into the document from another repository
 Borrow/link a chapter from another bookdown course
 }
 \examples{
+\dontrun{
 
+# In an Rmarkdown document: 
+
+```{r, echo=FALSE, results='asis'}
 borrow_chapter(
 doc_path = "docs/02-chapter_of_course.md",
 repo_name = "jhudsl/DaSL_Course_Template_Bookdown")
+```
 
-
-
-
-
+}
 }
