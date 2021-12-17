@@ -10,7 +10,6 @@
 #' grab from a git pat set in the environment with usethis::create_github_token().
 #' Authorization handled by \link[cow]{get_git_auth}
 #' @param verbose TRUE/FALSE do you want more progress messages?
-#' @param keep_json verbose TRUE/FALSE keep the json file locally?
 #'
 #' @return a data frame with the repository's release information: tag_name and tag_date.
 #' NAs are returned in these columns if there are no releases.
@@ -20,45 +19,47 @@
 #'
 #' @export
 #'
-#' @examples
+#' @examples \dontrun{}
 #'
 #' release_info <- get_release_info("jhudsl/DaSL_Course_Template_Bookdown")
 #' 
 get_release_info <- function(repo_name,
                              git_pat = NULL,
-                             verbose = TRUE,
-                             keep_json = FALSE) {
+                             verbose = TRUE) {
   releases <- NA
 
-  # Try to get credentials other way
-  auth_arg <- get_git_auth(git_pat = git_pat, quiet = TRUE)
-
-  git_pat <- try(auth_arg$password, silent = TRUE)
-
-  exists <- check_git_repo(
+  # Get repo info
+  repo_info <- get_repo_info(
     repo_name = repo_name,
-    git_pat = git_pat,
-    verbose = FALSE
+    git_pat = git_pat
   )
 
-  if (exists) {
-    # Get repo info
-    repo_info <- get_repo_info(
-      repo_name = repo_name,
-      git_pat = git_pat
-    )
-
-    # Declare URL
-    url <- gsub("{/id}", "", repo_info$releases_url,
-      fixed = TRUE
-    )
-
-    # Github api get
-    response <- httr::GET(
-      url,
-      httr::add_headers(Authorization = paste0("token ", git_pat)),
-      httr::accept_json()
-    )
+  # Declare URL
+  url <- gsub("{/id}", "", repo_info$releases_url,
+    fixed = TRUE
+  )
+  
+  # Try to get credentials other way
+  auth_arg <- get_git_auth(git_pat = git_pat, quiet = TRUE)
+  
+  git_pat <- try(auth_arg$password, silent = TRUE)
+  
+  if (grepl("Error", git_pat[1])) {
+      
+      # Github api get without authorization
+      response <- httr::GET(
+        url,
+        httr::accept_json()
+      )
+      
+    } else {
+      # Github api get
+      response <- httr::GET(
+        url,
+        httr::add_headers(Authorization = paste0("token ", git_pat)),
+        httr::accept_json()
+      )
+    }
 
     if (httr::http_error(response)) {
       warning(paste0("url: ", url, " failed"))
@@ -84,8 +85,5 @@ get_release_info <- function(repo_name,
       ) %>%
         dplyr::mutate(tag_date = as.Date(tag_date))
     }
-  } else {
-    warning(paste0(repo_name, " could not be found with the given credentials."))
-  }
   return(releases)
 }

@@ -14,6 +14,7 @@
 #' @export
 #'
 get_git_auth <- function(git_pat = NULL, git_username = "PersonalAccessToken", quiet = FALSE) {
+  
   auth_arg <- NULL
 
   # If git pat is not provided, try to get credentials with gitcreds

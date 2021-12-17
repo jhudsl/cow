@@ -4,7 +4,7 @@
 \alias{get_release_info}
 \title{Retrieve information about a github repo}
 \usage{
-get_release_info(repo_name, git_pat = NULL, verbose = TRUE, keep_json = FALSE)
+get_release_info(repo_name, git_pat = NULL, verbose = TRUE)
 }
 \arguments{
 \item{repo_name}{The full name of the repo to get bookdown chapters from.
@@ -16,8 +16,6 @@ grab from a git pat set in the environment with usethis::create_github_token().
 Authorization handled by \link[cow]{get_git_auth}}
 
 \item{verbose}{TRUE/FALSE do you want more progress messages?}
-
-\item{keep_json}{verbose TRUE/FALSE keep the json file locally?}
 }
 \value{
 a data frame with the repository's release information: tag_name and tag_date.
@@ -28,6 +26,8 @@ Given an repository on GitHub, retrieve the information about it from the
 GitHub API and read it into R.
 }
 \examples{
+\dontrun{}
 
 release_info <- get_release_info("jhudsl/DaSL_Course_Template_Bookdown")
+
 }
