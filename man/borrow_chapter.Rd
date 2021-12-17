@@ -42,19 +42,19 @@ Borrow/link a chapter from another bookdown course
 \examples{
 \dontrun{
 
-# In an Rmarkdown document: 
+# In an Rmarkdown document:
 
-For a file in another repository:
-```{r, echo=FALSE, results='asis'}
+# For a file in another repository:
+# ```{r, echo=FALSE, results='asis'}
 borrow_chapter(
-doc_path = "docs/02-chapter_of_course.md",
-repo_name = "jhudsl/DaSL_Course_Template_Bookdown")
-```
+  doc_path = "docs/02-chapter_of_course.md",
+  repo_name = "jhudsl/DaSL_Course_Template_Bookdown"
+)
+# ```
 
-
-For a local file:
-```{r, echo=FALSE, results='asis'}
+# For a local file:
+# ```{r, echo=FALSE, results='asis'}
 borrow_chapter(doc_path = "02-chapter_of_course.Rmd")
-```
+# ```
 }
 }

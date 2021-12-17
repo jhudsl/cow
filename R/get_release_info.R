@@ -29,15 +29,11 @@ get_release_info <- function(repo_name,
                              keep_json = FALSE) {
   releases <- NA
 
-  # Try to get credentials other way 
+  # Try to get credentials other way
   auth_arg <- get_git_auth(git_pat = git_pat)
-  
-  git_pat <- auth_arg$password
-  
-  if (is.null(git_pat)) {
-    message("No credentials being used, only public repositories will be successful")
-  }
-  
+
+  git_pat <- try(auth_arg$password, silent = TRUE)
+
   exists <- check_git_repo(
     repo_name = repo_name,
     git_pat = git_pat,

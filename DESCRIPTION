@@ -1,13 +1,13 @@
 Package: cow
-Title: Helps Manage Git Course Repos
+Title: Course Organizer and Wrangler
 Version: 0.0.0.9000
 Authors@R:
     person(given = "Candace",
            family = "Savonen",
            role = c("aut", "cre"),
            email = "cansav09@gmail.com")
-Description: Accesses GitHub API from R and performs some course
-  management functions, including retrieving chapter names, learning objectives,
+Description: Performs some course management functions through interactions with
+  GitHub API, including retrieving chapter names, learning objectives,
   and keywords for courses hosted on GitHub repositories.
 License: GPL-3
 Imports:
@@ -25,6 +25,7 @@ Imports:
     udpipe,
     xml2,
     knitr,
+    igraph,
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

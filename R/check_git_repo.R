@@ -24,25 +24,19 @@ check_git_repo <- function(repo_name,
                            silent = TRUE,
                            return_repo = FALSE,
                            verbose = TRUE) {
-
   if (verbose) {
     message(paste("Checking for remote git repository:", repo_name))
   }
   # If silent = TRUE don't print out the warning message from the 'try'
   report <- ifelse(silent, suppressWarnings, message)
 
-    if (is.null(git_pat)) {
-      # Try to get credentials othe way 
-      auth_arg <- get_git_auth(git_pat = git_pat)
-      
-      git_pat <- auth_arg$password
-      
-      if (is.null(git_pat)) {
-        message("No credentials being used, only public repositories will be successful")
-      }
-    }
+  # Try to get credentials othe way
+  auth_arg <- get_git_auth(git_pat = git_pat)
 
-  if (!is.null(git_pat)) {
+  git_pat <- try(auth_arg$password, silent = TRUE)
+
+  # Run git ls-remote
+  if (!grepl("Error", git_pat[1])) {
     # If git_pat is supplied, use it
     test_repo <- report(
       try(system(paste0("git ls-remote https://", git_pat, "@github.com/", repo_name),
@@ -50,13 +44,11 @@ check_git_repo <- function(repo_name,
       ))
     )
   } else {
-
     # Try to git ls-remote the repo_name given
-    test_repo <- report(
-      try(system(paste0("git ls-remote https://github.com/", repo_name),
-        intern = TRUE, ignore.stderr = TRUE
-      ))
-    )
+    test_repo <- report
+    try(system(paste0("git ls-remote https://github.com/", repo_name),
+      intern = TRUE, ignore.stderr = TRUE
+    ))
   }
   # If 128 is returned as a status attribute it means it failed
   exists <- ifelse(is.null(attr(test_repo, "status")), TRUE, FALSE)

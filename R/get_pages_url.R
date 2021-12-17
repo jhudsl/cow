@@ -28,17 +28,17 @@ get_pages_url <- function(repo_name,
                           keep_json = FALSE) {
   page_url <- NA
 
-  # Try to get credentials other way 
+  # Try to get credentials other way
   auth_arg <- get_git_auth(git_pat = git_pat)
-  
-  git_pat <- auth_arg$password
-  
-  if (is.null(git_pat)) {
-    message("No credentials being used, only public repositories will be successful")
+
+  git_pat <- try(auth_arg$password, silent = TRUE)
+
+  if (grepl("Error", git_pat[1])) {
+    warning("Cannot retrieve page info without GitHub credentials. Passing an NA.")
   }
 
   # We can only retrieve pages if we have the credentials
-  if (!is.null(git_pat)) {
+  if (!grepl("Error", git_pat[1])) {
     exists <- check_git_repo(
       repo_name = repo_name,
       git_pat = git_pat,
@@ -73,8 +73,6 @@ get_pages_url <- function(repo_name,
         page_url <- page_info$html_url
       }
     }
-  } else {
-    warning("Cannot retrieve page info without GitHub credentials. Passing an NA.")
   }
   return(page_url)
 }

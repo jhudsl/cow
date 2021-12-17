@@ -27,18 +27,17 @@ retrieve_org_repos <- function(org_name = NULL,
                                output_file = "org_repos.tsv",
                                git_pat = NULL,
                                verbose = TRUE) {
-  
-  # Try to get credentials other way 
+
+  # Try to get credentials other way
   auth_arg <- get_git_auth(git_pat = git_pat)
-  
-  if (is.null(auth_arg$password)) {
-    message("No credentials being used, only public repositories will be successful")
-  }
-  
+
+  git_pat <- try(auth_arg$password, silent = TRUE)
+
   # Declare URL
   url <- paste0("https://api.github.com/orgs/", org_name, "/repos?per_page=1000000")
 
-  if (is.null(auth_arg$password)){
+  if (grepl("Error", git_pat[1])) {
+    
     # Github api get without authorization
     response <- httr::GET(
       url,

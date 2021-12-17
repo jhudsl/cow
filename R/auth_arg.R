@@ -13,16 +13,17 @@
 #' @export
 #'
 get_git_auth <- function(git_pat = NULL, git_username = "PersonalAccessToken") {
-
   auth_arg <- NULL
-  
-  # If either username or git pat is not provided, try to get credentials with gitcreds
+
+  # If git pat is not provided, try to get credentials with gitcreds
   if (is.null(git_pat)) {
 
     # Try getting credentials
     auth_arg <- try(gitcreds::gitcreds_get(), silent = TRUE)
 
     if (grepl("Could not find any credentials", auth_arg[1])) {
+
+      # Only if we're running this interactively
       if (interactive()) {
         # Set credentials if null
         auth_arg <- gitcreds::gitcreds_set()
@@ -31,16 +32,7 @@ get_git_auth <- function(git_pat = NULL, git_username = "PersonalAccessToken") {
               or directly providing a personal access token using the git_pat argument")
       }
     }
-
-    git_username <- auth_arg$username
-    git_pat <- auth_arg$password
-
-    if (is.null(git_pat)) {
-      message("No github credentials found or provided.
-              Only public repositories will be retrieved.")
-    }
-  }
-  if (!is.null(git_pat)) {
+  } else { # If git_pat is given, use it.
     # Set to Renviron file temporarily
     Sys.setenv(GITHUB_PAT = git_pat)
 
@@ -55,5 +47,13 @@ get_git_auth <- function(git_pat = NULL, git_username = "PersonalAccessToken") {
     auth_arg$host <- "github.com"
     auth_arg$username <- git_username
   }
+
+  # Check if we have authentication
+  git_pat <- try(auth_arg$password, silent = TRUE)
+
+  if (grepl("Error", git_pat[1])) {
+    message("No github credentials found or provided; only public repositories will be successful")
+  }
+
   return(auth_arg)
 }
