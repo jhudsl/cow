@@ -19,8 +19,8 @@ document of the chapter in the repository you are retrieving it from that
 you would like to include in the current document. e.g "docs/intro.md" or "intro.md"}
 
 \item{repo_name}{A character vector indicating the repo name of where you are
-borrowing from. e.g. "jhudsl/DaSL_Course_Template_Bookdown/".
-For a Wiki of a repo, use "wiki/jhudsl/DaSL_Course_Template_Bookdown/"
+borrowing from. e.g. "jhudsl/OTTR_Template/".
+For a Wiki of a repo, use "wiki/jhudsl/OTTR_Template/"
 If nothing is provided, will look for local file.}
 
 \item{branch}{Default is to pull from main branch, but need to declare if other branch is needed.}
@@ -48,7 +48,7 @@ Borrow/link a chapter from another bookdown course
 # ```{r, echo=FALSE, results='asis'}
 borrow_chapter(
   doc_path = "docs/02-chapter_of_course.md",
-  repo_name = "jhudsl/DaSL_Course_Template_Bookdown"
+  repo_name = "jhudsl/OTTR_Template"
 )
 # ```
 
