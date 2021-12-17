@@ -19,9 +19,13 @@
 #'
 #' @export
 #'
-#' @examples
+#' @examples \dontrun{
 #'
-#' pages_url <- get_pages_url("jhudsl/DaSL_Course_Template_Bookdown")
+#' usethis::create_github_token()
+#' 
+#' get_chapters("jhudsl/Documentation_and_Usability")
+#' 
+#' }
 get_pages_url <- function(repo_name,
                           git_pat = NULL,
                           verbose = FALSE,

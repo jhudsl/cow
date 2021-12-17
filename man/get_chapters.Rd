@@ -41,6 +41,11 @@ information for the Github page if it exists.
 Currently only public repositories are supported.
 }
 \examples{
+\dontrun{
+
+usethis::create_github_token()
 
 get_chapters("jhudsl/Documentation_and_Usability")
+
+}
 }
