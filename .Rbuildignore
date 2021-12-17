@@ -10,6 +10,6 @@
 ^docker$
 ^.local$
 ^.rstudio$
-*.udpipe$
+^.*udpipe$
 ^\.secrets$
 ^/home/rstudio/cow/\.secrets$
