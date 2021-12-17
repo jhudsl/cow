@@ -24,6 +24,7 @@ Imports:
     textrank,
     udpipe,
     xml2,
+    knitr,
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
