@@ -17,6 +17,7 @@
 #' @return An Rmarkdown or markdown is knitted into the document from another repository
 #'
 #' @importFrom knitr opts_knit
+#' @importFrom knitr knit_child
 #' @importFrom utils download.file
 #' @export
 #'
