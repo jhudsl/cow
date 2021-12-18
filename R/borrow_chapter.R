@@ -16,6 +16,7 @@
 #'
 #' @return An Rmarkdown or markdown is knitted into the document from another repository
 #'
+#' @importFrom knitr opts_knit
 #' @importFrom knitr knit_child
 #' @importFrom utils download.file
 #' @export
@@ -49,7 +50,7 @@ borrow_chapter <- function(doc_path,
   doc_path <- file.path(doc_path)
   doc_name <- basename(doc_path)
 
-  if (is.null(repo_name)) {
+  if (!is.null(repo_name)) {
     exists <- check_git_repo(
       repo_name = repo_name,
       git_pat = git_pat,
@@ -70,12 +71,14 @@ borrow_chapter <- function(doc_path,
     message(full_url)
 
     # Download it
-    download.file(full_url, destfile = dest_file)
+    download.file(full_url, destfile = dest_file, quiet = TRUE)
   } else {
     # If the file is local we don't need to download anything
     dest_file <- doc_path
   }
 
+  knitr::opts_knit$set(echo = FALSE, results = 'asis')
+  
   # Knit it in
   result <- knitr::knit_child(dest_file, quiet = TRUE)
   cat(result, sep = "\n")
