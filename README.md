@@ -2,7 +2,7 @@
 
 `cow` accesses GitHub API from R and performs some course management functions, including retrieving chapter names and learning objectives for courses hosted on GitHub repositories.
 
-[Read the full documentation here](https://jhudatascience.org/cow/docs/index.html).
+[Read the full documentation here](https://jhudatascience.org/cow/index.html).
 
 ## Installation
 
