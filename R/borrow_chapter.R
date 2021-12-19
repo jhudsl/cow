@@ -52,13 +52,28 @@ borrow_chapter <- function(doc_path,
   doc_path <- file.path(doc_path)
   doc_name <- basename(doc_path)
   
+  # Is this a wiki page? 
+  is_wiki <- grepl("^wiki\\/", repo_name)
+  
+  # There's not remote branches for wiki
+  if (is_wiki) {
+    branch = ""
+  }
+  
   if (!is.null(repo_name)) {
-    exists <- check_git_repo(
-      repo_name = repo_name,
-      git_pat = git_pat,
-      verbose = FALSE,
-      silent = TRUE
-    )
+    
+    # check_git_repo() does not work for wiki pages
+    if (!is_wiki) {
+      exists <- cow::check_git_repo(
+        repo_name = repo_name,
+        git_pat = git_pat,
+        verbose = FALSE,
+        silent = TRUE
+      )
+      if (!exists) {
+        warning(paste(repo_name, "was not found in GitHub. If it is a private repository, make sure your credentials have been provided"))
+      }
+    }
     
     # Create folder if it doesn't exist
     if (!dir.exists(dest_dir)) {
@@ -67,13 +82,16 @@ borrow_chapter <- function(doc_path,
     
     dest_file <- file.path(dest_dir, doc_name)
     
+    # Piece together URL
     full_url <- file.path(base_url, repo_name, branch, doc_path)
     
-    # Progress message
-    message(full_url)
-    
     # Download it
-    download.file(full_url, destfile = dest_file, quiet = TRUE)
+    response <- try(download.file(full_url, destfile = dest_file, quiet = TRUE))
+    
+    # Let us know if the url didn't work
+    if (grepl("Error", response)) {
+      stop("URL failed: ", full_url, "\n Double check doc_path and repo_name (and branch if set)")
+    }
   } else {
     # If the file is local we don't need to download anything
     dest_file <- doc_path
