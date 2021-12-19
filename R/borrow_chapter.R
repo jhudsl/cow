@@ -40,8 +40,8 @@
 #' borrow_chapter(doc_path = "02-chapter_of_course.Rmd")
 #' # ```
 #' }
-borrow_chapter <- function(doc_path = "Set-up-feedback-method.md",
-                           repo_name = "wiki/jhudsl/OTTR_Template",
+borrow_chapter <- function(doc_path,
+                           repo_name = NULL,
                            branch = "main",
                            git_pat = NULL,
                            base_url = "https://raw.githubusercontent.com",
