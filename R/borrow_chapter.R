@@ -18,7 +18,9 @@
 #'
 #' @importFrom knitr opts_knit
 #' @importFrom knitr knit_child
+#' @importFrom knitr current_input
 #' @importFrom utils download.file
+#' @importFrom rprojroot find_root
 #' @export
 #'
 #' @examples \dontrun{
