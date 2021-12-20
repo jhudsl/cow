@@ -46,6 +46,5 @@ Currently only public repositories are supported.
 usethis::create_github_token()
 
 get_chapters("jhudsl/Documentation_and_Usability")
-
 }
 }

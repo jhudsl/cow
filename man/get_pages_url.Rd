@@ -32,6 +32,5 @@ Given an repository on GitHub, retrieve the pages URL for it.
 usethis::create_github_token()
 
 get_chapters("jhudsl/Documentation_and_Usability")
-
 }
 }

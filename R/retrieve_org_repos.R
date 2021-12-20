@@ -23,7 +23,6 @@
 #'   org_name = "jhudsl",
 #'   output_file = "jhudsl_repos.tsv"
 #' )
-#' 
 retrieve_org_repos <- function(org_name = NULL,
                                output_file = "org_repos.tsv",
                                git_pat = NULL,
@@ -38,7 +37,7 @@ retrieve_org_repos <- function(org_name = NULL,
   url <- paste0("https://api.github.com/orgs/", org_name, "/repos?per_page=1000000")
 
   if (grepl("Error", git_pat[1])) {
-    
+
     # Github api get without authorization
     response <- httr::GET(
       url,

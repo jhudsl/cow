@@ -1,9 +1,9 @@
 #' Borrow/link a chapter from another bookdown course
-#' 
-#' If you have two courses that the content and topics overlap, you may want to share written material between the two. 
-#' But, if you copy and paste to share material this would create a maintenance problem because if you update one you will need to remember to copy over the other! 😱 
+#'
+#' If you have two courses that the content and topics overlap, you may want to share written material between the two.
+#' But, if you copy and paste to share material this would create a maintenance problem because if you update one you will need to remember to copy over the other! 😱
 #' To borrow a chapter from another course, create an .Rmd as you normally would, with an [`H1` title](https://www.markdownguide.org/basic-syntax/) if you wish.
-#' Then in a code chunk, use cow::borrow_chapter() to have the content from an Rmd from another repository knitted into the Rmd. 
+#' Then in a code chunk, use cow::borrow_chapter() to have the content from an Rmd from another repository knitted into the Rmd.
 #'
 #' @param doc_path A file path of markdown or R Markdown
 #' document of the chapter in the repository you are retrieving it from that
@@ -12,7 +12,7 @@
 #'  borrowing from. e.g. "jhudsl/OTTR_Template/".
 #' For a Wiki of a repo, use "wiki/jhudsl/OTTR_Template/"
 #' If nothing is provided, will look for local file.
-#' @param remove_h1 If TRUE Remove all h1 headers. 
+#' @param remove_h1 If TRUE Remove all h1 headers.
 #' @param branch Default is to pull from main branch, but need to declare if other branch is needed.
 #' @param git_pat A personal access token from GitHub. Only necessary if the
 #' repository being checked is a private repository.
@@ -53,22 +53,22 @@ borrow_chapter <- function(doc_path,
                            git_pat = NULL,
                            base_url = "https://raw.githubusercontent.com",
                            dest_dir = file.path("resources", "other_chapters")) {
-  
-  
+
+
   # Declare file names
   doc_path <- file.path(doc_path)
   doc_name <- basename(doc_path)
-  
-  # Is this a wiki page? 
+
+  # Is this a wiki page?
   is_wiki <- grepl("^wiki\\/", repo_name)
-  
+
   # There's not remote branches for wiki
   if (is_wiki) {
     branch <- ""
   }
-  
+
   if (!is.null(repo_name)) {
-    
+
     # check_git_repo() does not work for wiki pages
     if (!is_wiki) {
       exists <- cow::check_git_repo(
@@ -81,20 +81,20 @@ borrow_chapter <- function(doc_path,
         warning(paste(repo_name, "was not found in GitHub. If it is a private repository, make sure your credentials have been provided"))
       }
     }
-    
+
     # Create folder if it doesn't exist
     if (!dir.exists(dest_dir)) {
       dir.create(dest_dir, recursive = TRUE)
     }
-    
+
     dest_file <- file.path(dest_dir, doc_name)
-    
+
     # Piece together URL
     full_url <- file.path(base_url, repo_name, branch, doc_path)
-    
+
     # Download it
     response <- try(download.file(full_url, destfile = dest_file, quiet = TRUE))
-    
+
     # Let us know if the url didn't work
     if (grepl("Error", response)) {
       stop("URL failed: ", full_url, "\n Double check doc_path and repo_name (and branch if set)")
@@ -103,25 +103,28 @@ borrow_chapter <- function(doc_path,
     # If the file is local we don't need to download anything
     dest_file <- doc_path
   }
-  
+
   # Remove leanbuild::set_knitr_image_path() from downloaded file
   file_contents <- readLines(dest_file)
   file_contents <- gsub("leanbuild::set_knitr_image_path\\(\\)", "", file_contents)
-  
+
   # If remove_header = TRUE
   if (remove_h1) {
     file_contents <- file_contents[-grep("^#[^#]", file_contents)]
   }
-  
+
   writeLines(file_contents, dest_file)
-  
+
   # Set the root directory based on the parent directory that this is being called at
   knitr::opts_knit$set(root.dir = rprojroot::find_root(knitr::current_input()))
-  
+
   # Knit it in
-  result <- knitr::knit_child(dest_file, 
-                              options = list(echo = FALSE, 
-                                             results = 'asis'), 
-                              quiet = TRUE)
+  result <- knitr::knit_child(dest_file,
+    options = list(
+      echo = FALSE,
+      results = "asis"
+    ),
+    quiet = TRUE
+  )
   cat(result, sep = "\n")
 }
