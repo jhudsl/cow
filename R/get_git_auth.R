@@ -30,8 +30,10 @@ get_git_auth <- function(git_pat = NULL, git_username = "PersonalAccessToken", q
         # Set credentials if null
         auth_arg <- gitcreds::gitcreds_set()
       } else {
-        message("Could not find git credentials, please set by running usethis::create_github_token(),
-              or directly providing a personal access token using the git_pat argument")
+        if(!quiet) {
+          message("Could not find git credentials, please set by running usethis::create_github_token(),
+                    or directly providing a personal access token using the git_pat argument")
+        }
       }
     }
   } else { # If git_pat is given, use it.
