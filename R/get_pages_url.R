@@ -22,9 +22,8 @@
 #' @examples \dontrun{
 #'
 #' usethis::create_github_token()
-#' 
+#'
 #' get_chapters("jhudsl/Documentation_and_Usability")
-#' 
 #' }
 get_pages_url <- function(repo_name,
                           git_pat = NULL,

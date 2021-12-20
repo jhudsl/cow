@@ -43,9 +43,9 @@ get_repo_info <- function(repo_name,
 
     # Try to get credentials other way
     auth_arg <- get_git_auth(git_pat = git_pat)
-    
+
     git_pat <- try(auth_arg$password, silent = TRUE)
-    
+
     if (grepl("Error", git_pat[1])) {
       # Github api get without authorization
       response <- httr::GET(

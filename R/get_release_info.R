@@ -38,52 +38,51 @@ get_release_info <- function(repo_name,
   url <- gsub("{/id}", "", repo_info$releases_url,
     fixed = TRUE
   )
-  
+
   # Try to get credentials other way
   auth_arg <- get_git_auth(git_pat = git_pat, quiet = TRUE)
-  
+
   git_pat <- try(auth_arg$password, silent = TRUE)
-  
+
   if (grepl("Error", git_pat[1])) {
-      
-      # Github api get without authorization
-      response <- httr::GET(
-        url,
-        httr::accept_json()
-      )
-      
-    } else {
-      # Github api get
-      response <- httr::GET(
-        url,
-        httr::add_headers(Authorization = paste0("token ", git_pat)),
-        httr::accept_json()
-      )
-    }
 
-    if (httr::http_error(response)) {
-      warning(paste0("url: ", url, " failed"))
-    }
+    # Github api get without authorization
+    response <- httr::GET(
+      url,
+      httr::accept_json()
+    )
+  } else {
+    # Github api get
+    response <- httr::GET(
+      url,
+      httr::add_headers(Authorization = paste0("token ", git_pat)),
+      httr::accept_json()
+    )
+  }
 
-    # Get content as JSON
-    release_info <- httr::content(response, as = "parsed")
+  if (httr::http_error(response)) {
+    warning(paste0("url: ", url, " failed"))
+  }
 
-    if (length(release_info) == 0) {
-      if (verbose) {
-        message(paste0("No releases for ", repo_name))
-      }
-      # If there is no releases, put an NA
-      releases <- data.frame(
-        tag_name = NA,
-        tag_date = NA
-      )
-    } else {
-      # If there are releases, get the tag name and date
-      releases <- data.frame(
-        tag_name = extract_entries(release_info, "tag_name"),
-        tag_date = extract_entries(release_info, "created_at")
-      ) %>%
-        dplyr::mutate(tag_date = as.Date(tag_date))
+  # Get content as JSON
+  release_info <- httr::content(response, as = "parsed")
+
+  if (length(release_info) == 0) {
+    if (verbose) {
+      message(paste0("No releases for ", repo_name))
     }
+    # If there is no releases, put an NA
+    releases <- data.frame(
+      tag_name = NA,
+      tag_date = NA
+    )
+  } else {
+    # If there are releases, get the tag name and date
+    releases <- data.frame(
+      tag_name = extract_entries(release_info, "tag_name"),
+      tag_date = extract_entries(release_info, "created_at")
+    ) %>%
+      dplyr::mutate(tag_date = as.Date(tag_date))
+  }
   return(releases)
 }
