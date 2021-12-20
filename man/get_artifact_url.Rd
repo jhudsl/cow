@@ -29,7 +29,7 @@ retrieve the URL for you to use to download that file.
 \examples{
 \dontrun{
 
-# If in GitHub actions you have something like this: 
+# If in GitHub actions you have something like this:
 
 #     - name: Archive spelling errors
 #       uses: actions/upload-artifact\@v2
@@ -37,12 +37,13 @@ retrieve the URL for you to use to download that file.
 #         name: spell-check-results
 #         path: spell_check_results.tsv
 
-# This you can run this: 
+# This you can run this:
 
-cow::get_artifact(artifact_name = "spell-check-results", 
-                  repo_name = "jhudsl/OTTR_Template", 
-                  git_pat = "gh_12345")
-
+cow::get_artifact_url(
+  artifact_name = "spell-check-results",
+  repo_name = "jhudsl/OTTR_Template",
+  git_pat = "gh_12345"
+)
 }
 
 }
