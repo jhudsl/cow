@@ -122,6 +122,6 @@ borrow_chapter <- function(doc_path,
   result <- knitr::knit_child(dest_file, 
                               options = list(echo = FALSE, 
                                              results = 'asis'), 
-                              quiet = FALSE)
+                              quiet = TRUE)
   cat(result, sep = "\n")
 }
