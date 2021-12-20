@@ -1,4 +1,9 @@
 #' Borrow/link a chapter from another bookdown course
+#' 
+#' If you have two courses that the content and topics overlap, you may want to share written material between the two. 
+#' But, if you copy and paste to share material this would create a maintenance problem because if you update one you will need to remember to copy over the other! 😱 
+#' To borrow a chapter from another course, create an .Rmd as you normally would, with an [`H1` title](https://www.markdownguide.org/basic-syntax/) if you wish.
+#' Then in a code chunk, use cow::borrow_chapter() to have the content from an Rmd from another repository knitted into the Rmd. 
 #'
 #' @param doc_path A file path of markdown or R Markdown
 #' document of the chapter in the repository you are retrieving it from that
@@ -7,6 +12,7 @@
 #'  borrowing from. e.g. "jhudsl/OTTR_Template/".
 #' For a Wiki of a repo, use "wiki/jhudsl/OTTR_Template/"
 #' If nothing is provided, will look for local file.
+#' @param remove_h1 If TRUE Remove all h1 headers. 
 #' @param branch Default is to pull from main branch, but need to declare if other branch is needed.
 #' @param git_pat A personal access token from GitHub. Only necessary if the
 #' repository being checked is a private repository.
@@ -42,6 +48,7 @@
 #' }
 borrow_chapter <- function(doc_path,
                            repo_name = NULL,
+                           remove_h1 = FALSE,
                            branch = "main",
                            git_pat = NULL,
                            base_url = "https://raw.githubusercontent.com",
@@ -57,7 +64,7 @@ borrow_chapter <- function(doc_path,
   
   # There's not remote branches for wiki
   if (is_wiki) {
-    branch = ""
+    branch <- ""
   }
   
   if (!is.null(repo_name)) {
@@ -100,6 +107,12 @@ borrow_chapter <- function(doc_path,
   # Remove leanbuild::set_knitr_image_path() from downloaded file
   file_contents <- readLines(dest_file)
   file_contents <- gsub("leanbuild::set_knitr_image_path\\(\\)", "", file_contents)
+  
+  # If remove_header = TRUE
+  if (remove_h1) {
+    file_contents <- file_contents[-grep("^#[^#]", file_contents)]
+  }
+  
   writeLines(file_contents, dest_file)
   
   # Set the root directory based on the parent directory that this is being called at

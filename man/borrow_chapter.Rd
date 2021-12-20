@@ -7,6 +7,7 @@
 borrow_chapter(
   doc_path,
   repo_name = NULL,
+  remove_h1 = FALSE,
   branch = "main",
   git_pat = NULL,
   base_url = "https://raw.githubusercontent.com",
@@ -23,6 +24,8 @@ borrowing from. e.g. "jhudsl/OTTR_Template/".
 For a Wiki of a repo, use "wiki/jhudsl/OTTR_Template/"
 If nothing is provided, will look for local file.}
 
+\item{remove_h1}{If TRUE Remove all h1 headers.}
+
 \item{branch}{Default is to pull from main branch, but need to declare if other branch is needed.}
 
 \item{git_pat}{A personal access token from GitHub. Only necessary if the
@@ -37,7 +40,10 @@ the current repository.}
 An Rmarkdown or markdown is knitted into the document from another repository
 }
 \description{
-Borrow/link a chapter from another bookdown course
+If you have two courses that the content and topics overlap, you may want to share written material between the two.
+But, if you copy and paste to share material this would create a maintenance problem because if you update one you will need to remember to copy over the other! 😱
+To borrow a chapter from another course, create an .Rmd as you normally would, with an \href{https://www.markdownguide.org/basic-syntax/}{\code{H1} title} if you wish.
+Then in a code chunk, use cow::borrow_chapter() to have the content from an Rmd from another repository knitted into the Rmd.
 }
 \examples{
 \dontrun{
