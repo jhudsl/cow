@@ -115,8 +115,11 @@ borrow_chapter <- function(doc_path,
 
   writeLines(file_contents, dest_file)
 
+  # Get parent directory
+  parent_dir <- rprojroot::find_root(knitr::current_input())
+  
   # Set the root directory based on the parent directory that this is being called at
-  knitr::opts_knit$set(root.dir = rprojroot::find_root(knitr::current_input()))
+  knitr::opts_knit$set(root.dir = parent_dir)
 
   # Knit it in
   result <- knitr::knit_child(dest_file,
