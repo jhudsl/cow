@@ -6,13 +6,18 @@
 
 ## Installation
 
-You can install `cow` from GitHub with:
+You can install the latest `cow` from GitHub with:
 
 ```
 if (!(installed.packages() %in% "remotes")){
   install.packages("remotes")
 }
 remotes::install_github("jhudsl/cow")
+```
+
+If you prefer to install with binary you can install like this: 
+```
+install.packages('https://github.com/jhudsl/cow/raw/main/package_bundles/cow_0.0.0.9000.tgz', repos = NULL)
 ```
 
 For quick start up, or if you have installation problems, you can use the docker image:
