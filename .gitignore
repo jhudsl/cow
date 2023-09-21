@@ -5,4 +5,4 @@ docker/git_token.txt
 .rstudio/
 .local/
 .secrets
-/home/rstudio/cow/.secrets
+/home/rstudio/githubr/.secrets

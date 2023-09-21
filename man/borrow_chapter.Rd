@@ -43,7 +43,7 @@ An Rmarkdown or markdown is knitted into the document from another repository
 If you have two courses that the content and topics overlap, you may want to share written material between the two.
 But, if you copy and paste to share material this would create a maintenance problem because if you update one you will need to remember to copy over the other! 😱
 To borrow a chapter from another course, create an .Rmd as you normally would, with an \href{https://www.markdownguide.org/basic-syntax/}{\code{H1} title} if you wish.
-Then in a code chunk, use cow::borrow_chapter() to have the content from an Rmd from another repository knitted into the Rmd.
+Then in a code chunk, use githubr::borrow_chapter() to have the content from an Rmd from another repository knitted into the Rmd.
 }
 \examples{
 \dontrun{

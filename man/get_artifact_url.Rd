@@ -39,7 +39,7 @@ retrieve the URL for you to use to download that file.
 
 # This you can run this:
 
-cow::get_artifact_url(
+githubr::get_artifact_url(
   artifact_name = "spell-check-results",
   repo_name = "jhudsl/OTTR_Template",
   git_pat = "gh_12345"

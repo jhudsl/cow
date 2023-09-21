@@ -1,4 +1,4 @@
-^cow\.Rproj$
+^githubr\.Rproj$
 ^\.Rproj\.user$
 ^.github
 ^update-googlesheet.R$
@@ -12,4 +12,4 @@
 ^.rstudio$
 ^.*udpipe$
 ^\.secrets$
-^/home/rstudio/cow/\.secrets$
+^/home/rstudio/githubr/\.secrets$
