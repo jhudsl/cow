@@ -3,7 +3,7 @@
 #' If you have two courses that the content and topics overlap, you may want to share written material between the two.
 #' But, if you copy and paste to share material this would create a maintenance problem because if you update one you will need to remember to copy over the other! 😱
 #' To borrow a chapter from another course, create an .Rmd as you normally would, with an [`H1` title](https://www.markdownguide.org/basic-syntax/) if you wish.
-#' Then in a code chunk, use cow::borrow_chapter() to have the content from an Rmd from another repository knitted into the Rmd.
+#' Then in a code chunk, use githubr::borrow_chapter() to have the content from an Rmd from another repository knitted into the Rmd.
 #'
 #' @param doc_path A file path of markdown or R Markdown
 #' document of the chapter in the repository you are retrieving it from that
@@ -71,7 +71,7 @@ borrow_chapter <- function(doc_path,
 
     # check_git_repo() does not work for wiki pages
     if (!is_wiki) {
-      exists <- cow::check_git_repo(
+      exists <- githubr::check_git_repo(
         repo_name = repo_name,
         git_pat = git_pat,
         verbose = FALSE,
@@ -104,9 +104,9 @@ borrow_chapter <- function(doc_path,
     dest_file <- doc_path
   }
 
-  # Remove leanbuild::set_knitr_image_path() from downloaded file
+  # Remove ottr::set_knitr_image_path() from downloaded file
   file_contents <- readLines(dest_file)
-  file_contents <- gsub("leanbuild::set_knitr_image_path\\(\\)", "", file_contents)
+  file_contents <- gsub("ottr::set_knitr_image_path\\(\\)", "", file_contents)
 
   # If remove_header = TRUE
   if (remove_h1) {
