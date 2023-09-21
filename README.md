@@ -17,6 +17,11 @@ if (!(installed.packages() %in% "remotes")){
 remotes::install_github("jhudsl/githubr")
 ```
 
+If you prefer to install with binary you can install like this: 
+```
+install.packages('https://github.com/jhudsl/cow/raw/main/package_bundles/cow_0.0.0.9000.tgz', repos = NULL)
+```
+
 For quick start up, or if you have installation problems, you can use the docker image:
 
 ```
