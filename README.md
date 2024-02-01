@@ -9,7 +9,7 @@
 You can install the latest `cow` from GitHub with:
 
 ```
-if (!(installed.packages() %in% "remotes")){
+if (!("remotes" %in% installed.packages())){
   install.packages("remotes")
 }
 remotes::install_github("jhudsl/cow")
