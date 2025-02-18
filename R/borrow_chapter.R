@@ -59,16 +59,15 @@ borrow_chapter <- function(doc_path,
   doc_path <- file.path(doc_path)
   doc_name <- basename(doc_path)
 
-  # Is this a wiki page?
-  is_wiki <- grepl("^wiki\\/", repo_name)
-
-  # There's not remote branches for wiki
-  if (is_wiki) {
-    branch <- ""
-  }
-
   if (!is.null(repo_name)) {
 
+    # Is this a wiki page?
+    is_wiki <- grepl("^wiki\\/", repo_name)
+
+    # There's not remote branches for wiki
+    if (is_wiki) {
+      branch <- ""
+    }
     # check_git_repo() does not work for wiki pages
     if (!is_wiki) {
       exists <- cow::check_git_repo(
@@ -117,7 +116,7 @@ borrow_chapter <- function(doc_path,
 
   # Get parent directory
   parent_dir <- knitr::opts_knit$get("output.dir")
-  
+
   # Set the root directory based on the parent directory that this is being called at
   knitr::opts_knit$set(root.dir = parent_dir)
 
