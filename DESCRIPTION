@@ -6,14 +6,13 @@ Authors@R:
            family = "Savonen",
            role = c("aut", "cre"),
            email = "cansav09@gmail.com")
-Description: A GitHub API wrapper in R. Has additional functions to help wrangle GitHub published OTTR courses. <ottrproject.org>
+Description: A GitHub API wrapper in R. Has additional functions to help wrangle GitHub. It can help wrangle published OTTR courses. <ottrproject.org>
 License: GPL-3
 Imports:
     dplyr,
     gitcreds,
     htm2txt,
     httr,
-    jsonlite,
     magrittr,
     readr,
     rvest,
@@ -23,7 +22,6 @@ Imports:
     udpipe,
     xml2,
     knitr,
-    igraph,
     rprojroot
 Encoding: UTF-8
 LazyData: true
