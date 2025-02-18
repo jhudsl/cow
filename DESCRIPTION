@@ -6,9 +6,7 @@ Authors@R:
            family = "Savonen",
            role = c("aut", "cre"),
            email = "cansav09@gmail.com")
-Description: Performs some course management functions through interactions with
-  GitHub API, including retrieving chapter names, learning objectives,
-  and keywords for courses hosted on GitHub repositories.
+Description: A GitHub API wrapper in R. Has additional functions to help wrangle GitHub published OTTR courses. <ottrproject.org>
 License: GPL-3
 Imports:
     dplyr,
