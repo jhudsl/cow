@@ -1,3 +1,5 @@
+⚠️**cow is no longer being maintained as of April 2025 -- please use [ottrpal](https://github.com/ottrproject/ottrpal) which contains many of the same functionality of cow including borrow_chapter()⚠️**
+
 ### :cow: Course Organizer and Wrangler - COW.
 
 `cow` accesses GitHub API from R and performs some course management functions, including retrieving chapter names and learning objectives for courses hosted on GitHub repositories.
